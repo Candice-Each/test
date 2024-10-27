@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/superfish.css" >
+
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="js/hoverIntent.js"></script>
+		<script src="js/superfish.js"></script>
+		<script>
+
+		(function($){ //create closure so we can safely use $ as alias for jQuery
+
+			$(document).ready(function(){
+
+				// initialise plugin
+				var example = $('#example').superfish({
+					//add options here if required
+				});
+
+				
+			});
+
+		})(jQuery);
+
+
+		</script>
+	</head>
+	<center>
+	<body>
+	    <div>
+		<ul class="sf-menu" id="example">
+			<li class="current">
+				<a href="index.html">Home</a>
+			</li>
+			<li>
+				<a href="P2about.html?passi=1">About Hall 9</a>
+				<ul>
+					<li>
+						<a href="P2about.html?passi=1">Introduction</a>
+					</li>
+					<li>
+						<a href="P2about.html?passi=2">Our Vision</a>
+					</li>
+					<li>
+						<a href="P2about.html?passi=3">People</a>
+						<ul>
+							<li><a href="P2about.html?passi=3">Residence Master</a></li>
+							<li><a href="P2about.html?passi=4">Residence Tutors</a></li>
+							<!-- <li><a href="P2about.html?passi=5">Provisional Hall Residents’ Association</a></li> -->
+							<li><a href="P2about.html?passi=6">Our Residents</a></li>
+						</ul>
+					</li>
+
+				</ul>
+			</li>
+			<li>
+				<a href="P3fac.html?passi=1">Facilities</a>
+				<ul>
+					<li>
+						<a href="P3fac.html?passi=1">Common Rooms</a>
+					</li>
+					<li>
+						<a href="P3fac.html?passi=2">Items</a>
+					</li>
+
+				</ul>
+			</li>
+			<li>
+				<a href="P4act.html?passi=1">Activities</a>
+				<ul>
+					<li>
+						<a href="P4act.html?passi=1">Prof. Edmond Ko Cup</a>
+					</li>
+					<li>
+						<a href="P4act.html?passi=2">Cultural Activities</a>
+					</li>
+					<li>
+						<a href="P4act.html?passi=3">Academic and Career</a>
+					</li>
+					<li>
+						<a href="P4act.html?passi=4">Social Responsibility</a>
+					</li>
+					<li>
+						<a href="P4act.html?passi=5">Student Initiated Activities</a>
+					</li>
+				</ul>
+			</li>	
+			<li>
+				<a href="P5rule.html?passi=1">Rules</a>
+				<ul>
+					<li>
+						<a href="P5rule.html?passi=1">Hall Rules</a>
+					</li>
+					<li>
+						<a href="P5rule.html?passi=2">Rules of Use for Facilities</a>
+					</li>
+					<li>
+						<a href="P5rule.html?passi=3">Returning Policy</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="P6gpa.html?passi=1">Hall Scholarship</a>
+				<ul>
+					<li>
+						<a href="P6gpa.html?passi=1">Application Information</a>
+					</li>
+					<li>
+						<a href="P6gpa.html?passi=2">Scholarships Team</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="P7info.html?passi=1">Information Area</a>
+				<ul>
+					<li>
+						<a href="P7info.html?passi=1">Map</a>
+					</li>
+					<li>
+						<a href="P7info.html?passi=2">Useful information</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="https://www.facebook.com/pages/Sir-Gordon-and-Lady-Ivy-Wu-Hall-City-University-of-Hong-Kong/620859471280806" target="_blank"><img style="width: 20px; border-style: none;" src="images\mfb.png" alt="hall9 picture"></a>
+			</li>
+
+			<li>
+				<a href="https://www.instagram.com/hall9cityu" target="_blank"><img style="width: 20px; border-style: none;" src="images\mig.png" alt="hall9 picture"></a>
+			</li>
+
+
+		</ul>
+	    </div>
+	</body>
+	</center>
+</html>

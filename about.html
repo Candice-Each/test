@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Hall9" />
+        <meta name="Keywords" content="CityU 9, Hall9, Hall 9, Sir Gordon, Wu hall, wuddies" />
+        <meta name="description"
+            content=" Hall 9 is commissioned to host a community of active learners at City University of Hong Kong, who strive to be excellent in academic and social endeavors, global in understanding and experience, compassionate in heart, and collaborative in action." />
+
+        <title>Hall 9 - About Us</title>
+        <link href='https://fonts.googleapis.com/css?family=Outfit' rel='stylesheet'>
+    </head>
+
+    <body>
+        <div id="header"></div>
+
+        <h1>A Loving, Caring and Inspiring Home for City Learners</h1>
+        <nav class="navbar-about">
+            <ul>
+                <li><a href="#about1">Hall Introduction</a></li>
+                <li><a href="#about2">Residence Tutors</a></li>
+                <li><a href="#about3">Residence Master</a></li>
+                <li><a href="#about4">History</a></li>
+            </ul>
+        </nav>
+
+        <div id="contents"></div>
+
+        <div id="footer"></div>
+
+    </body>
+
+
+    <style>
+        body {
+            font-family: Outfit;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #e6d1ff;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #footer {
+            margin-top: auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-top: 20px;
+            color: #4e4a5f;
+        }
+
+        .navbar-about {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .navbar-about ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .navbar-about li {
+            display: inline-block;
+            width: 20%;
+        }
+
+        .navbar-about a {
+            text-decoration: none;
+            color: #4e4a5f;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .navbar-about a:hover {
+            color: #8c6cbf;
+        }
+
+        #contents {
+            padding-bottom: 40px;
+        }
+
+        @media (max-width: 960px) {
+            .navbar-about li {
+                width: 45%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script>
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+
+        $("#contents").load("about1.html");
+        $(".navbar-about a").eq(0).css("color", "#8c6cbf");
+
+        $(".navbar-about a").click(function () {
+            event.preventDefault();
+            var index = $(this).parent().index();
+            $(".navbar-about a").css("color", "#4e4a5f");
+            $(this).css("color", "#8c6cbf");
+            $("#contents").load("about" + (index + 1) + ".html");
+        });
+    </script>
+
+</html>
