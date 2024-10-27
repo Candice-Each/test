@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<title>Hall 9 - About Hall 9</title>
+</head>
+
+<body>
+<center>
+    <div style="width: 920px;">
+        <div>
+            <img style="width: 920px" src="images\headpic.jpg" alt="Hall 9">
+        </div>
+
+        <div style="width: 920px; background-color: #8000FF; margin-top: -5px;" id = "menu"></div>
+
+        <div style="z-index:-99; background-color: #FAFAFA; box-shadow:0px 5px 50px -20px rgba(100,100,100,0.5);">
+
+            <div class="submenu" style="width: 130px; float:left;" align="center" >
+                <div id = "submen" style="margin: 5px;"></div>
+            </div>
+
+            <div style="overflow: hidden; background-color:rgba(255,255,255,0.5); color: #444444;"  align="left">        
+                <div id = "conten" style="margin: 5px 55px 15px 25px;"></div>       
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="width: 920px; margin-top: 50px;">
+        Sir Gordon and Lady Ivy Wu Hall (Hall 9), Student Residence, City University of Hong Kong<br>
+        22 Cornwall Street, Kowloon Tong, Kowloon, Hong Kong SAR
+    </div>
+</center>
+
+<FORM NAME="hall9">
+<INPUT TYPE="hidden" NAME="piy">
+</FORM>
+</body>
+
+
+<style>
+
+    #submen a{ 
+        color: #FFFFFF;
+        text-decoration:none;
+    }    
+    #submen div:hover{
+        background-color: #9F81F7; 
+    }
+    #submen div{
+        background-color: #AAAAAA;
+        border-radius: 6px 6px 6px 6px;
+    }
+
+    body{
+        font-family: Calibri;
+        background-color: #EEEEEE;
+        background-size:100% 100%;
+        background-repeat:no-repeat;
+        background-attachment:fixed;
+    }
+
+</style>
+
+
+
+<script src="js/jquery-1.9.1.min.js"></script>
+<script>
+
+var locate = window.location;
+document.hall9.piy.value = locate;
+var text = document.hall9.piy.value;
+function delineate(str)
+{
+theleft = str.indexOf("=") + 1;
+theright = str.lastIndexOf("&");
+return(str.substring(theleft, theright));
+}
+
+var locate = window.location
+document.hall9.piy.value = locate
+var text = document.hall9.piy.value
+function delineate2(str)
+{
+point = str.lastIndexOf("=");
+return(str.substring(point+1,str.length));
+}
+
+var passj = delineate2(text);
+
+$("#submen").load("page/S2about.html");
+if (passj == 1){        
+    $("#conten").load("page/C21.html");
+}else if (passj == 2){
+    $("#conten").load("page/C22.html");
+}else if (passj == 3){
+    $("#conten").load("page/C23.html");
+}else if (passj == 4){
+    $("#conten").load("page/C24.html");
+}else if (passj == 5){
+    $("#conten").load("page/C25.html");
+}else if (passj == 6){
+    $("#conten").load("page/C26.html");
+}
+$("#menu").load("Menu.html");
+
+</script>
+
+</html>
