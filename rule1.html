@@ -135,7 +135,6 @@
 
             tocLinks.forEach((link, index) => {
                 link.addEventListener('click', (e) => {
-                    e.preventDefault();
                     $('html, body').animate({
                         scrollTop: headings[index].offsetTop - 10
                     }, 200);

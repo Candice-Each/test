@@ -14,7 +14,6 @@
         </ul>
     </div>
     <div class="rules">
-        
         <div id="rule3">
             <div class="heading">3. Room & Identity</div>
             <div class="rule">
@@ -129,7 +128,6 @@
 
             tocLinks.forEach((link, index) => {
                 link.addEventListener('click', (e) => {
-                    e.preventDefault();
                     $('html, body').animate({
                         scrollTop: headings[index].offsetTop - 10
                     }, 200);
