@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<body>
+
+   <a onclick="submclick(1)" href="#"><div id="S3C1" onMouseOver='submover(1)' onMouseOut='submout(1)'>Common Rooms</div></a>   <br>
+   <a onclick="submclick(2)" href="#"><div id="S3C2" onMouseOver='submover(2)' onMouseOut='submout(2)'>Items for Borrowing</div></a>   <br>
+
+</body>
+
+
+
+<script src="js/rt.js"></script>
+<script>
+
+var clickednoi = 1;
+var subm = new Array();
+subm[0] = document.getElementById('S3C1');
+subm[1] = document.getElementById('S3C2');
+
+
+
+function submclick(noi) {
+    clickednoi = noi;
+
+    subm[0].style.backgroundColor = "#AAAAAA";
+    subm[1].style.backgroundColor = "#AAAAAA";
+
+    if (noi==1) {
+        subm[noi-1].style.backgroundColor = "#8258FA";
+        $("#conten").fadeOut(500 , function () {
+            $("#conten").load("page/C31.html");
+            });
+        $("#conten").fadeIn(500);
+
+
+    }else if (noi==2) {
+        subm[noi-1].style.backgroundColor = "#8258FA";
+        $("#conten").fadeOut(500 , function () {
+            $("#conten").load("page/C32.html");
+            });
+        $("#conten").fadeIn(500);
+
+    }
+}
+
+function submover(noi) {
+    if (noi!=clickednoi) {
+        subm[noi-1].style.backgroundColor = "#9F81F7"; 
+    }
+}
+
+function submout(noi) {
+    if (noi!=clickednoi) {
+        subm[noi-1].style.backgroundColor = "#AAAAAA";
+    }
+}
+
+var locate = window.location;
+document.hall9.piy.value = locate;
+var text = document.hall9.piy.value;
+function delineate(str)
+{
+theleft = str.indexOf("=") + 1;
+theright = str.lastIndexOf("&");
+return(str.substring(theleft, theright));
+}
+
+var locate = window.location
+document.hall9.piy.value = locate
+var text = document.hall9.piy.value
+function delineate2(str)
+{
+point = str.lastIndexOf("=");
+return(str.substring(point+1,str.length));
+}
+
+var passj = delineate2(text);
+
+if (passj == 1){        
+    subm[0].style.backgroundColor = "#8258FA";
+}else if (passj == 2){
+    subm[1].style.backgroundColor = "#8258FA";
+}
+
+</script>
+
+
+
+
+
+</html>
+
+

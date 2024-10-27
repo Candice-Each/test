@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+
+
+.bbb {
+    background-color: #A9F5A9;
+    text-decoration: none;
+}
+
+.bbb:hover {
+    background-color: #58FA82;
+    text-decoration: none;
+}
+
+
+.role {
+position: absolute;
+background-color: #A9F5A9;
+
+}
+
+
+</style>
+
+<script src="js/jquery-1.11.1.min.js" type="text/javascript" ></script>
+
+<script>
+
+
+// Random types
+var ii = Math.floor((Math.random()*12)+1);
+// most effect types need no options passed by default
+var options = {};
+
+// get effect type from
+if (ii == 1){
+    var selectedEffect = "blind";
+}else if (ii == 2){
+    var selectedEffect = "bounce";
+}else if (ii == 3){
+    var selectedEffect = "clip";
+}else if (ii == 4){
+    var selectedEffect = "drop";
+}else if (ii == 5){
+    var selectedEffect = "explode";
+}else if (ii == 6){
+    var selectedEffect = "fold";
+}else if (ii == 7){
+    var selectedEffect = "highlight";
+}else if (ii == 8){
+    var selectedEffect = "puff";
+}else if (ii == 9){
+    var selectedEffect = "pulsate";
+}else if (ii == 10){
+    var selectedEffect = "scale";
+    options = { percent: 0 };
+}else if (ii == 11){
+    var selectedEffect = "shake";
+}else if (ii == 12){
+    var selectedEffect = "size";
+    options = { to: { width: 200, height: 60 } };
+}else if (ii == 13){
+    var selectedEffect = "slide";
+}
+
+
+function runrunx( whichi ){
+    if (whichi == 1){
+        $( "#effect1" ).toggle( "fast" );
+    }
+    if (whichi == 2){
+        $( "#effect2" ).toggle( "fast" );
+    }
+    if (whichi == 3){
+        $( "#effect3" ).toggle( "fast" );
+    }
+    if (whichi == 4){
+        $( "#effect4" ).toggle( "fast" );
+    }
+    if (whichi == 5){
+        $( "#effect5" ).toggle( "fast" );
+    }
+    if (whichi == 6){
+        $( "#effect6" ).toggle( "fast" );
+    }
+    if (whichi == 7){
+        $( "#effect7" ).toggle( "fast" );
+    }
+    if (whichi == 8){
+        $( "#effect8" ).toggle( "fast" );
+    }
+}
+
+</script>
+</head>
+
+<body>
+
+<p style="font-size:150%;">Residence Tutors</p>
+
+<p style="line-height:150%;">Residence Tutors are postgraduate / final year / research students or staff members of the University. They are responsible for assisting the Residence Master of the assigned hall in the provision of pastoral care and intellectual guidance to residents, organizing hall activities, and maintaining peace, order and good administration of the hall.</p>
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px;  text-align:left;">
+    <div style="float:left;">
+        <img src="images/2peo/Y21rt01.jpg" style="width: 180px; height: 240px;" alt="RT picture">
+    </div>
+    <div style="margin-left : 185px;">
+        <p style="margin: 0; font-size:120%";>1/F RT: Alisher (102A) <a class="bbb" onclick="runrunx(1)"> Advocacy Tutor  </a></p>
+        <div id="effect1" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            •  fb/ig/web on hall life <br>
+            •  student success story 
+            </p>
+        </div>
+        <p style="line-height:150%;">
+       Hi everyone! This is Alisher. I am a 3rd year student from Kazakhstan, majoring in Data Science. This is my second year staying in Hall 9 and I am glad to be a part of the family. I have wide range of interests, whether it's sports or science, so please feel free to approach me 🙌🏻 I am excited to see you all and sure you will enjoy the hall life!
+        </p>
+    </div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+    <div style="float:left;">
+        <img src="images/2peo/Y21rt02.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+    </div>
+    <div style="margin-left : 185px;">
+        <p style="margin: 0; font-size:120%";>2/F & 3/F: Katherine (202B) <a class="bbb" onclick="runrunx(2)">  Discipline Tutor  </a></p>
+        <div id="effect2" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Discipline management <br>
+            • secretary to HD panel (up to SDC standard) 
+        </div>
+        <p style="line-height:150%;">
+
+       Hi Wuddies! I’m Kat, a final year student majoring in Biomedical engineering. This is my second year in Hall 9. Welcome all of you to be a part of us! Hall 9 is a warm place for us to meet new friends. I love chatting with others, you can share your interests and stories with me. For anything you need, please feel free to approach me~ Hope you can explore and enjoy the hall life in Hall 9. 
+       </p>
+    </div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+  <div style="float:left;">
+    <img src="images/2peo/Y20t03.jpg" style="width: 230px; height: 180px;" alt="RT picture">
+  </div>
+
+    <div style="margin-left : 185px;">
+      <p style="margin: 0; font-size:120%";>4/F RT: Lucy (402B) <a class="bbb" onclick="runrunx(3)">Returning Tutor (Senior) </a></p>
+        <div id="effect3" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Hall returning scheme<br>
+            • RM Chop, hall posting & booking on SR-MFH (a to c)
+        </div>
+        <p style="line-height:150%;">
+          Hi Wuddies! This is Lucy. I am from South Korea and I am a year 4 student majoring in Biological Science. I love learning new languages and eating dessert. Please feel free to knock on my door if you have anything to ask. I am very excited to see you all and I hope you enjoy your time in Hall 9!
+        </p>
+    </div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y21rt04.jpg" style="width: 180px; height: 230px;" alt="RT picture">
+</div>
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";>5/F & 6/F RT: Cowinna (602B) <a class="bbb" onclick="runrunx(4)"> Events Tutor  </a></p>
+        <div id="effect4" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • arrange student performers/booth at SRO signature events<br>
+        </div>
+    <p style="line-height:150%;">
+       Hi! I’m Cowinna, majoring in Criminology and Sociology. This is my fourth year living in hall 9 and I enjoyed the time spent here. I was also an ex-RA member in hall 9 and I believed I could share my experiences with you all. If you need any help, please feel free to talk to me. I wish you will enjoy the hall life and create great memories here!
+    </p>
+</div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y21rt05.jpg" style="width: 180px; height: 160px;" alt="RT picture">
+</div>
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";>7/F RT: Rita (702A) <a class="bbb" onclick="runrunx(5)"> Finance Tutor   </a></p>
+        <div id="effect5" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Finance<br>
+            • Advocacy (Hall 9 Website Management)<br>
+        </div>
+        <p style="line-height:150%;">
+            Hello Wuddies! I'm Rita, a final year student majoring Information Management and Business Analysis. This is my 4th year living in Hall 9 and I really enjoy the warm and lovely atmosphere here. I have various interests, for sports like badminton and table tennis, and for music like kpop and guitar. Please feel free to approach me for any help or guidance. I'm looking forwards to seeing you all in the coming academic year!! :D
+        </p>
+</div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y21rt06.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+</div>
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";>8/F RT: Leo (802B) <a class="bbb" onclick="runrunx(6)"> Facilities Tutor </a></p>
+        <div id="effect6" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Facilities management <br>
+            • Webpage maintance
+        </div>
+<p style="line-height:150%;">
+
+Hello Wuddies! I am Leo majoring the data analytics stream of systems engineering management. I come from Nanjing, mainland China, this is going to be my fourth year living in hall 9! I love music, watching movies and playing football! Please feel free to contact me via Wechat or WhatsApp! Hope you enjoy the residential life here!:)
+</p>
+</div>
+</div>
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y20t01.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+</div>
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";>9/F RT: Shoaib (902A) <a class="bbb" onclick="runrunx(7)"> PEK Coordinator (Senior) </a></p>
+        <div id="effect7" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+             • Senior RT <br>
+                          • PEK Coordination
+        </div>
+<p style="line-height:150%;">Hi everyone! I’m Shoaib, a final year student majoring in Materials Engineering. This is my second year as an RT and 4th year staying in Hall 9. I love the energy and atmosphere that Hall 9 hosts and I hope to be a part of the welcoming environment to help you settle in and enjoy your time living here. You can approach me for anything - I have a wide range of interests and hobbies and I’m sure we will get along well! I look forward to meeting you all and making wonderful memories! 😄
+</p>
+</div>
+</div>
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y20t08.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+</div>
+
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";> 10F & 11/F RT: Stefany (1102A) <a class="bbb" onclick="runrunx(8)"> Finance Tutor (Senior) </a></p>
+        <div id="effect8" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • hall budget, inventory control, stock-take<br>
+        </div>
+<p style="line-height:150%;">
+Hi Wuddies! I am Stefany, a forth-year student majoring in Finance. This is my forth year staying in hall 9. I love eating, cooking, watching movies, travelling and chatting with people. Please feel free to knock on my door and chat with me anytime if you encounter any problems. Looking forward to see you guys in the coming year. Hope you can meet new friends here and wish you have a unforgettable residence life in hall 9! ;)
+</p>
+</div>
+</div>
+
+<br>
+<a href="P4M.html?passi=6" target="_blank">Residence Tutors of 2018-2019</a>
+<br>
+<a href="P4M.html?passi=7" target="_blank">Residence Tutors of 2019-2020</a>
+<br>
+<a href="P4M.html?passi=8" target="_blank">Residence Tutors of 2020-2021</a>
+
+</body>
+
+</html>

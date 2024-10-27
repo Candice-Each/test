@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+
+
+.bbb {
+    background-color: #A9F5A9;
+    text-decoration: none;
+}
+
+.bbb:hover {
+    background-color: #58FA82;
+    text-decoration: none;
+}
+
+
+.role {
+position: absolute;
+background-color: #A9F5A9;
+
+}
+
+
+</style>
+
+<script src="js/jquery-1.11.1.min.js" type="text/javascript" ></script>
+
+<script>
+
+
+// Random types
+var ii = Math.floor((Math.random()*12)+1);
+// most effect types need no options passed by default
+var options = {};
+
+// get effect type from
+if (ii == 1){
+    var selectedEffect = "blind";
+}else if (ii == 2){
+    var selectedEffect = "bounce";
+}else if (ii == 3){
+    var selectedEffect = "clip";
+}else if (ii == 4){
+    var selectedEffect = "drop";
+}else if (ii == 5){
+    var selectedEffect = "explode";
+}else if (ii == 6){
+    var selectedEffect = "fold";
+}else if (ii == 7){
+    var selectedEffect = "highlight";
+}else if (ii == 8){
+    var selectedEffect = "puff";
+}else if (ii == 9){
+    var selectedEffect = "pulsate";
+}else if (ii == 10){
+    var selectedEffect = "scale";
+    options = { percent: 0 };
+}else if (ii == 11){
+    var selectedEffect = "shake";
+}else if (ii == 12){
+    var selectedEffect = "size";
+    options = { to: { width: 200, height: 60 } };
+}else if (ii == 13){
+    var selectedEffect = "slide";
+}
+
+
+function runrunx( whichi ){
+    if (whichi == 1){
+        $( "#effect1" ).toggle( "fast" );
+    }
+    if (whichi == 2){
+        $( "#effect2" ).toggle( "fast" );
+    }
+    if (whichi == 3){
+        $( "#effect3" ).toggle( "fast" );
+    }
+    if (whichi == 4){
+        $( "#effect4" ).toggle( "fast" );
+    }
+    if (whichi == 5){
+        $( "#effect5" ).toggle( "fast" );
+    }
+    if (whichi == 6){
+        $( "#effect6" ).toggle( "fast" );
+    }
+    if (whichi == 7){
+        $( "#effect7" ).toggle( "fast" );
+    }
+    if (whichi == 8){
+        $( "#effect8" ).toggle( "fast" );
+    }
+}
+
+</script>
+</head>
+
+<body>
+
+<p style="font-size:150%;">Residence Tutors</p>
+
+<p style="line-height:150%;">Residence Tutors are postgraduate / final year / research students or staff members of the University. They are responsible for assisting the Residence Master of the assigned hall in the provision of pastoral care and intellectual guidance to residents, organizing hall activities, and maintaining peace, order and good administration of the hall.</p>
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px;  text-align:left;">
+    <div style="float:left;">
+        <img src="images/2peo/Y19t01.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+    </div>
+    <div style="margin-left : 185px;">
+        <p style="margin: 0; font-size:120%";>1/F RT: John (102A) <a class="bbb" onclick="runrunx(1)"> External Tutor  </a></p>
+        <div id="effect1" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Events <br>
+            • Coordination with SRO and University
+            </p>
+        </div>
+        <p style="line-height:150%;">
+       Hey guys, this is John! I am a final year student from the Information Systems Department. I like doing different sports, eating and cooking. I also like traveling. I have been to different countries during I studied abroad. Feel free to let me know if you have any questions. Hope everyone will have a happy memory in hall 9! I am looking forward to seeing you guys;)
+        </p>
+    </div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+    <div style="float:left;">
+        <img src="images/2peo/Y19t02.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+    </div>
+    <div style="margin-left : 185px;">
+        <p style="margin: 0; font-size:120%";>2/F: Kei (202B) <a class="bbb" onclick="runrunx(2)">  Internal Tutor  </a></p>
+        <div id="effect2" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Senior RT<br>
+            • Returning
+            • Coordination with International Students
+        </div>
+        <p style="line-height:150%;">
+
+       Hi everyone! This is Kei. I am from Seoul, the capital city of South Korea. Now, I am a final year student from Biomedical Science. I love eating, swimming, watching movies and chatting around. I am an easy going person and hope I can be a good Wuddy friend of you :)
+
+        </p>
+    </div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+  <div style="float:left;">
+    <img src="images/2peo/Y19t03.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+  </div>
+
+    <div style="margin-left : 185px;">
+      <p style="margin: 0; font-size:120%";>3/F & 4/F RT: Stephanie (402B) <a class="bbb" onclick="runrunx(3)"> Facilities Tutor  </a></p>
+        <div id="effect3" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Facilities<br>
+            • Cheering Team
+            • Coordination with Local Students
+        </div>
+        <p style="line-height:150%;">
+          Hi everyone, I’m Stephanie, a final-year student majoring in Finance. This is my fourth year living in Hall 9, and here becomes my second home. I have enjoyed my hall life so much that I hope you can also create lifetime memories with your new friends here in Hall 9. Wish you will have a great time throughout this year and please feel free to knock on my door and chat with me!
+        </p>
+    </div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y19t04.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+</div>
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";>5/F & 6/F RT: Dibby (602B) <a class="bbb" onclick="runrunx(4)"> Liaison with RA Tutor  </a></p>
+        <div id="effect4" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Coordination between Hall Management Team and RA<br>
+        </div>
+    <p style="line-height:150%;">
+       Hi Wuddies! I am Dibby, a final-year student studying in Business Analysis. I have been living in Hall 9 for three years and it is my second home. I love watching movies and chatting with people. Please feel free knock on my door and talk to me anytime! I am so excited to meet you all and wish you all have a fruitful year living in Hall 9.
+    </p>
+</div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y19t05.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+</div>
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";>7/F RT: Catherine (702A) <a class="bbb" onclick="runrunx(5)"> Scholarship Tutor   </a></p>
+        <div id="effect5" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Scholarship Team<br>
+            • Media and Communication Team<br>
+        </div>
+        <p style="line-height:150%;">
+            Hi Wuddies! I am Catherine and my Chinese name is Mengfan. Currently I am a third-year PhD student in department of information systems. I like eating, reading and watching movies. Please feel free to knock on my door and chat with me. Looking forward to seeing you all in the future ：)
+        </p>
+</div>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y19t06.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+</div>
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";>8/F RT: Lance (802B) <a class="bbb" onclick="runrunx(6)"> PEK Coordinator</a></p>
+        <div id="effect6" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • PEK Coordination<br>
+        </div>
+<p style="line-height:150%;">
+
+Hi Wuddies! I am Lance majoring in Systems Engineering Management and this is going to be my third year living in this hall! I love a variety of sports and I consider doing sport an important part of a healthy life. Welcome to join me for various sport activities. Also, please feel free to knock at my door or contact me whenever you want to chat or need help. Hope you enjoy the resident life here and look forward to seeing you all！
+</p>
+</div>
+</div>
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y19t07.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+</div>
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";>9/F RT: Rudolf (902A) <a class="bbb" onclick="runrunx(7)"> Finance Tutor  </a></p>
+        <div id="effect7" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Finance<br>
+            • Advocacy (Hall 9 Website Management)<br>
+        </div>
+<p style="line-height:150%;">Hello everyone, I am Rudolf, a final year student majoring in Finance. The coming year would be my fourth year in CityU as well as in Hall 9. I am fond of traveling and hiking. Please feel free to reach out to me if you have any problems or even just want some advice for traveling around. Hope you all have a wonderful semester or year in Hall 9!
+</p>
+</div>
+</div>
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+<div style="float:left;">
+<img src="images/2peo/Y19t08.jpg" style="width: 180px; height: 180px;" alt="RT picture">
+</div>
+
+    <div style="margin-left : 185px;">
+<p style="margin: 0; font-size:120%";> 10F & 11/F RT: Andy (1102A) <a class="bbb" onclick="runrunx(8)"> Disciplinary Tutor </a></p>
+        <div id="effect8" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Disciplinary Management<br>
+        </div>
+<p style="line-height:150%;">
+"Hello Everyone! I am Andy, a “locally grown” HongKonger. I am a PCLL student from the School of Law. This is my fifth year studying postgraduate at City University of Hong Kong, but my “freshman” year as a resident. I love reading, shopping, watching Netflix, exploring different delicious food, meeting new friends and chatting with different people. If you need any help or simply want someone to chat with, please just feel free to knock on my door or contact me."
+</p>
+</div>
+</div>
+
+<br>
+<a href="P4M.html?passi=6" target="_blank">Previous Tutors</a>
+
+</body>
+
+
+
+</html>
