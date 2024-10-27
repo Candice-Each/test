@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+
+
+.bbb {
+    background-color: #A9F5A9;
+    text-decoration: none;
+}
+
+.bbb:hover {
+    background-color: #58FA82;
+    text-decoration: none;
+}
+
+
+.role {
+position: absolute;
+background-color: #A9F5A9;
+
+}
+
+
+</style>
+
+<script src="js/jquery-1.11.1.min.js" type="text/javascript" ></script>
+
+<script>
+
+
+// Random types
+var ii = Math.floor((Math.random()*12)+1);
+// most effect types need no options passed by default
+var options = {};
+
+// get effect type from
+if (ii == 1){
+    var selectedEffect = "blind";
+}else if (ii == 2){
+    var selectedEffect = "bounce";
+}else if (ii == 3){
+    var selectedEffect = "clip";
+}else if (ii == 4){
+    var selectedEffect = "drop";
+}else if (ii == 5){
+    var selectedEffect = "explode";
+}else if (ii == 6){
+    var selectedEffect = "fold";
+}else if (ii == 7){
+    var selectedEffect = "highlight";
+}else if (ii == 8){
+    var selectedEffect = "puff";
+}else if (ii == 9){
+    var selectedEffect = "pulsate";
+}else if (ii == 10){
+    var selectedEffect = "scale";
+    options = { percent: 0 };
+}else if (ii == 11){
+    var selectedEffect = "shake";
+}else if (ii == 12){
+    var selectedEffect = "size";
+    options = { to: { width: 200, height: 60 } };
+}else if (ii == 13){
+    var selectedEffect = "slide";
+}
+
+
+function runrunx( whichi ){
+    if (whichi == 1){
+        $( "#effect1" ).toggle( "fast" );
+    }
+    if (whichi == 2){
+        $( "#effect2" ).toggle( "fast" );
+    }
+    if (whichi == 3){
+        $( "#effect3" ).toggle( "fast" );
+    }
+    if (whichi == 4){
+        $( "#effect4" ).toggle( "fast" );
+    }
+    if (whichi == 5){
+        $( "#effect5" ).toggle( "fast" );
+    }
+    if (whichi == 6){
+        $( "#effect6" ).toggle( "fast" );
+    }
+    if (whichi == 7){
+        $( "#effect7" ).toggle( "fast" );
+    }
+    if (whichi == 8){
+        $( "#effect8" ).toggle( "fast" );
+    }
+}
+
+</script>
+</head>
+
+<body>
+
+<p style="font-size:150%;">Residence Tutors</p>
+
+<p style="line-height:150%;">Residence Tutors are postgraduate / final year / research students or staff members of the University. They are responsible for assisting the Residence Master of the assigned hall in the provision of pastoral care and intellectual guidance to residents, organizing hall activities, and maintaining peace, order and good administration of the hall.</p>
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px;  text-align:left;">
+    <div style="width: 30%; display: block;">
+        <img src="images/2peo/rt23-2.jpeg" style="width:100%; height:auto;" alt="RT picture">
+    </div>
+        <p style="margin:0; font-size:120%";>1/F & 2/F RT: Phoebe (202B) <a class="bbb" onclick="runrunx(1)"> HRC Tutor  </a></p>
+        <div id="effect1" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • HRC management <br>
+            • Event Management 
+            </p>
+        </div>
+        <p style="line-height:150%;">
+            Hi Wuddies, this is Phoebe. I am 3rd year student majoring Chinese and History in CityU and minoring Education Etudies in EDUHK. Also, I am the only one local HRC residence tutor in HMT this year, so if anyone wants to know more about HK, in any area, feel free to approach me!! Don’t be shy to say hello to me if we meet in the lift.        
+        </p>  
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px;  text-align:left;">
+    <div style="width: 30%; display: block;">
+        <img src="images/2peo/rt23-3.jpeg" style="width:100%; height:auto;" alt="RT picture">
+    </div>
+          <p style="margin: 0; font-size:120%";> 3/F & 4/F RT: Lincoln (302A) <a class="bbb" onclick="runrunx(2)"> Returning Tutor  </a></p>
+        <div id="effect2" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+             •  Senior RT <br>
+             •  Hall Returning Scheme
+            </p>
+        </div>
+            <p style="line-height:150%;">
+                Greetings, Hall 9 residents!
+
+I'm Lincoln, your Residence Tutor (RT), and I'm thrilled to welcome you to our vibrant community here at CityU Hong Kong. Hall 9 isn't just a place to stay; it's a home where diverse individuals come together to create a dynamic living experience.
+
+Known for its calming atmosphere and breathtaking rooftop view of Hong Kong's cityscape and mountains, Hall 9 is the perfect place to unwind after a busy day. As your RT, I'm here to support you and contribute to a positive and inclusive environment.
+
+Whether you're looking for advice on university life, interested in casual hangouts, or just want to chat, my door is always open. Beyond academics, I enjoy anime, manga, tennis, and anything intriguing or supernatural.
+
+Let's make this year in Hall 9 unforgettable. I'm excited to get to know each of you and create lasting memories together. Cheers to a fantastic year ahead!
+            
+            </p>
+        </div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+  <div style="width: 30%; display: block;">
+   <img src="images/2peo/RT22-6.png" style="width:100%; height:auto;" alt="RT picture">
+  </div>
+      <p style="margin: 0; font-size:120%";>5/F RT: Tim (502A) <a class="bbb" onclick="runrunx(3)"> ICFD Tutor </a></p>
+        <div id="effect3" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+                • ICFD Coordinator       
+            </p>
+         </div>
+        <p style="line-height:150%;">
+            Hey Wuddies, my name is Tamerlan, but you can call me Tim😊 I am 4th year Mechanical Engineering student, and I am one of your PEK Residence tutors🤘Some of my hobbies are basketball and hiking, so if anyone wants to play some ball, reach me out. Hope that this year we are gonna have some great sport memories together!!!
+        </p>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+    <div style="width: 30%; display: block;">
+        <img src="images/2peo/rt23-6.jpg" style="width:100%; height:auto;" alt="RT picture">
+    </div>
+    <p style="margin: 0; font-size:120%";>6/F RT: Jenika (602A) <a class="bbb" onclick="runrunx(4)"> Advocacy Tutor  </a></p>
+        <div id="effect4" class="role" style="display:none;">
+            <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • FB/IG/Web/Youtube on hall life <br>
+            • Hall Media Team Managemen <br>
+
+        </div>
+    <p style="line-height:150%;">
+        Hello guys! I’m Jenika, you can call me Jen. I come from Indonesia 🇮🇩, year 3, majoring in Asian and International Studies. I handle hall 9’s social media and the media team. Hit me up for more info about it. If you want to have a chat, don’t hesitate to hit me up! I enjoy talking a lot! 😜
+    </p>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+    <div style="width: 30%; display: block;">
+        <img src="images/2peo/rt23-7.jpg" style="width:100%; height: auto;" alt="RT picture">
+
+    </div>
+    <p style="margin: 0; font-size:120%";> 7/F RT: Cindy (702A) <a class="bbb" onclick="runrunx(5)"> Events Tutor   </a></p>
+    <div id="effect5" class="role" style="display:none;">
+        <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Arrange Student Performers/Booth at SRO signature events <br>
+            • Arrange Hall Events (SIA, Orientation Week) <br>
+        </p>
+    </div>
+        <p style="line-height:150%;">
+            Hey everyone! 🌟 I'm Cindy Falencia Irawan, a third-year computer science major from Indonesia 🇮🇩. When I'm not geeking out 🤓, you'll find me hanging with friends, reading some good books, or binge-watching k-dramas. Hall 9 is like my second home—I love the friendly vibes, awesome friends, and all the cool moments we share. If you're planning to make some fun event in Hall 9 or just want to chit chat, hit me up anytime! Let's make our hall life even more awesome together. 🎉✨
+        </p>
+</div>
+
+
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+    <div style="width: 30%; display: block;">
+        <img src="images/2peo/rt23-8.jpg" style="width:100%; height:auto;" alt="RT picture">
+
+    </div>
+    <p style="margin: 0; font-size:120%";> 8/F RT: Taalai (802B) <a class="bbb" onclick="runrunx(6)"> Advocacy Tutor </a></p>
+    <div id="effect6" class="role" style="display:none;">
+        <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+        • Hall Decorations <br>
+        • Hall Website Updates <br>
+    </div>
+    <p style="line-height:150%;">
+        Hey! I am Taalai, final year student majoring in computer science. 4 things you would most probably catch me doing are: calisthenics, reading, coding, and playing chess. So, if you want to play a blitz chess game, do sports together, crack leetcode questions, or have chat, just knock on my door! 
+    </p>
+</div>
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+    <div style="width: 30%; display: block;">
+         <img src="images/2peo/rt23-9.jpg" style="width: 100%; height:auto;" alt="RT picture">
+    </div>
+    <p style="margin: 0; font-size:120%";> 9/F RT: Akul (902A) <a class="bbb" onclick="runrunx(7)"> Discipline Tutor </a></p>
+    <div id="effect7" class="role" style="display:none;">
+        <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+            • Discipline management <br>
+            • Secretary to HD panel (up to SDC standard) <br>
+        </p>
+    </div>
+    <p style="line-height:150%;">
+        Hey everyone! This is Akul, I’m a third year data science student and this is my second year in Hall 9. I serve as the Discipline Tutor and am continuously working to ensure a harmonious and peaceful environment in Hall 9 for you all. Apart from my studies, I do enjoy sports especially chess and cricket and sometimes reading a bit of finance here and there. Do feel free to contact me about anything that bothers you or even if you just wanna have a chat. Anyways, enjoy your stay here in the Hall, and we as the HMT shall try our very best to make your stay enjoyable! ✌🏻✌🏻
+    </p>
+</div>
+
+<div style="position: relative; overflow: hidden; width: 700px; top: 10px; " align="left">
+    <div style="width: 30%; display: block;">
+    <img src="images/2peo/rt23-10.jpeg" style="width:100%; height:auto;" alt="RT picture">
+    </div>
+    <p style="margin: 0; font-size:120%";> 10/F RT: Felix (1002A) <a class="bbb" onclick="runrunx(8)"> Facilities and Finance Tutor </a></p>
+    <div id="effect8" class="role" style="display:none;">
+        <p style="line-height:140%; margin: 5px;"> <b>Roles:</b><br>
+        • Hall Budget, Inventory control, Stock-Take <br>
+        • Facilities management <br>
+        </p>
+    </div>
+    <p style="line-height:150%;">
+        Hello, Wuddies! Don't be afraid to say hi if you see me, I won't bite you!
+    </p>
+</div>
+
+<br>
+<a href="P4M.html?passi=6" target="_blank">Residence Tutors of 2018-2019</a>
+<br>
+<a href="P4M.html?passi=7" target="_blank">Residence Tutors of 2019-2020</a>
+<br>
+<a href="P4M.html?passi=8" target="_blank">Residence Tutors of 2020-2021</a>
+<br>
+<a href="P4M.html?passi=9" target="_blank">Residence Tutors of 2021-2022</a>
+<br>
+<a href="P4M.html?passi=10" target="_blank">Residence Tutors of 2022-2023</a>
+</body>
+
+
+
+</html>

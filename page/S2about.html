@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<body>
+
+   <a onclick="submclick(1)" href="#"><div id="S1C1" onMouseOver='submover(1)' onMouseOut='submout(1)'>Hall Introduction</div></a>   <br>
+   <a onclick="submclick(2)" href="#"><div id="S1C2" onMouseOver='submover(2)' onMouseOut='submout(2)'>Our Vision</div></a>   <br>
+   <a onclick="submclick(3)" href="#"><div id="S1C3" onMouseOver='submover(3)' onMouseOut='submout(3)'>Residence Master</div></a>   <br>
+   <a onclick="submclick(4)" href="#"><div id="S1C4" onMouseOver='submover(4)' onMouseOut='submout(4)'>Residence Tutors</div></a>    <br>
+   <!-- <a onclick="submclick(5)" href="#"><div id="S1C5" onMouseOver='submover(5)' onMouseOut='submout(5)'>Provisional Residents' Association</div></a>   <br> -->
+   <a onclick="submclick(5)" href="#"><div id="S1C6" onMouseOver='submover(6)' onMouseOut='submout(6)'>Our Residents</div></a>    <br>
+
+</body>
+
+
+
+<script src="js/rt.js"></script>
+<script>
+
+var clickednoi = 1;
+var subm = new Array();
+subm[0] = document.getElementById('S1C1');
+subm[1] = document.getElementById('S1C2');
+subm[2] = document.getElementById('S1C3');
+subm[3] = document.getElementById('S1C4');
+// subm[4] = document.getElementById('S1C5');
+subm[4] = document.getElementById('S1C6');
+
+function submclick(noi) {
+    clickednoi = noi;
+
+    subm[0].style.backgroundColor = "#AAAAAA";
+    subm[1].style.backgroundColor = "#AAAAAA";
+    subm[2].style.backgroundColor = "#AAAAAA";
+    subm[3].style.backgroundColor = "#AAAAAA";
+    // subm[4].style.backgroundColor = "#AAAAAA";
+    subm[4].style.backgroundColor = "#AAAAAA";
+
+    if (noi==1) {
+        subm[noi-1].style.backgroundColor = "#8258FA";
+        $("#conten").fadeOut(500 , function () {
+            $("#conten").load("page/C21.html");
+            });
+        $("#conten").fadeIn(500);
+
+
+    }else if (noi==2) {
+        subm[noi-1].style.backgroundColor = "#8258FA";
+        $("#conten").fadeOut(500 , function () {
+            $("#conten").load("page/C22.html");
+            });
+        $("#conten").fadeIn(500);
+
+    }else if (noi==3) {
+        subm[noi-1].style.backgroundColor = "#8258FA";
+        $("#conten").fadeOut(500 , function () {
+            $("#conten").load("page/C23.html");
+            });
+        $("#conten").fadeIn(500);
+
+    }else if (noi==4) {
+        subm[noi-1].style.backgroundColor = "#8258FA";
+        $("#conten").fadeOut(500 , function () {
+            $("#conten").load("page/C24.html");
+            });
+        $("#conten").fadeIn(500);
+
+    }
+    // else if (noi==5) {
+    //     subm[noi-1].style.backgroundColor = "#8258FA";
+    //     $("#conten").fadeOut(500 , function () {
+    //         $("#conten").load("page/C25.html");
+    //         });
+    //     $("#conten").fadeIn(500);
+
+    // }
+    else if (noi==5) {
+        subm[noi-1].style.backgroundColor = "#8258FA";
+        $("#conten").fadeOut(500 , function () {
+            $("#conten").load("page/C26.html");
+            });
+        $("#conten").fadeIn(500);
+    }
+}
+
+function submover(noi) {
+    if (noi!=clickednoi) {
+        subm[noi-1].style.backgroundColor = "#9F81F7"; 
+    }
+}
+
+function submout(noi) {
+    if (noi!=clickednoi) {
+        subm[noi-1].style.backgroundColor = "#AAAAAA";
+    }
+}
+
+var locate = window.location;
+document.hall9.piy.value = locate;
+var text = document.hall9.piy.value;
+function delineate(str)
+{
+theleft = str.indexOf("=") + 1;
+theright = str.lastIndexOf("&");
+return(str.substring(theleft, theright));
+}
+
+var locate = window.location
+document.hall9.piy.value = locate
+var text = document.hall9.piy.value
+function delineate2(str)
+{
+point = str.lastIndexOf("=");
+return(str.substring(point+1,str.length));
+}
+
+var passj = delineate2(text);
+
+if (passj == 1){        
+    subm[0].style.backgroundColor = "#8258FA";
+}else if (passj == 2){
+    subm[1].style.backgroundColor = "#8258FA";
+}else if (passj == 3){
+    subm[2].style.backgroundColor = "#8258FA";
+}else if (passj == 4){
+    subm[3].style.backgroundColor = "#8258FA";
+}else if (passj == 5){
+    // subm[4].style.backgroundColor = "#8258FA";
+}else if (passj == 6){
+    subm[4].style.backgroundColor = "#8258FA";
+}
+
+</script>
+
+
+
+
+
+</html>
+
+
