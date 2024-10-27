@@ -7,14 +7,14 @@
 <body>
     <div class="toc">
         <ul>
-            <li><a href="#rule1">Conduct</a></li>
-            <li><a href="#rule12">Visitors</a></li>
-            <li><a href="#rule13">Room & Identity</a></li>
-            <li><a href="#rule14">Hall Activities</a></li>
+            <li><a href="rule1.html">Conduct</a></li>
+            <li><a href="rule12.html">Visitors</a></li>
+            <li><a href="rule13.html">Room & Identity</a></li>
+            <li><a href="rule14.html">Hall Activities</a></li>
         </ul>
     </div>
     <div class="rules">
-        <div id="rule3">
+        <div id="rule13">
             <div class="heading">3. Room & Identity</div>
             <div class="rule">
                 3.1 Residents are prohibited in hiding visitors after 12:00 midnight.
@@ -128,6 +128,7 @@
 
             tocLinks.forEach((link, index) => {
                 link.addEventListener('click', (e) => {
+                    e.preventDefault();
                     $('html, body').animate({
                         scrollTop: headings[index].offsetTop - 10
                     }, 200);
@@ -170,10 +171,7 @@
         var height = window.innerHeight - rule4.offsetHeight
         height = height > 20 ? height : 20;
         rules.style.marginBottom = height + 'px';
-        $("#rule1").load("rule1.html");
-        $("#rule12").load("rule12.html");
-        $("#rule13").load("rule13.html");
-        $("#rule14").load("rule14.html");
+
     </script>
 
 </body>
