@@ -15,14 +15,17 @@
 
         .toc {
             position: fixed;
-            top: 10px;
-            left: 10px;
+            top: 10px; /* 10px from the top */
+            left: 10px; /* 10px from the left edge */
             background-color: #f1f1f1;
             padding: 10px;
             margin: 0;
             list-style-type: none;
             border-radius: 10px;
-            width: 205px;
+            width: 160px; /* Fixed width */
+            height: calc(100% - 20px); /* Full height minus top and bottom margins */
+            overflow-y: auto; /* Enable scrolling if content overflows */
+            box-sizing: border-box; /* Include padding in width/height calculations */
         }
 
         .toc ul {
@@ -41,7 +44,7 @@
         }
 
         .rules {
-            margin-left: 250px;
+            margin-left: 180px; /* Adjusted margin */
             margin-bottom: 1000px;
         }
 
@@ -60,7 +63,7 @@
             }
 
             .rules {
-                margin-left: 120px;
+                margin-left: 100px; /* Adjusted margin for smaller screens */
             }
         }
     </style>
@@ -77,8 +80,9 @@
     </div>
 
     <div class="rules">
-        <div class="loading"></div>
+        <div class="loading">加载中，请稍候...</div>
         <div id="content-container">
+            <!-- 初始加载的内容将显示在这里 -->
         </div>
     </div>
 
@@ -89,7 +93,7 @@
                 $(".loading").hide(); // 隐藏加载指示器
                 $("#content-container").fadeIn(200); // 显示内容
             });
-    
+
             // 点击目录链接时直接替换内容
             $('.toc a').on('click', function (e) {
                 e.preventDefault(); // 阻止默认链接行为
@@ -107,12 +111,12 @@
                         $("#content-container").fadeIn(200);
                     });
                 });
-    
+
                 // 更新链接颜色
                 $('.toc a').css('color', 'black'); // 重置所有链接颜色
                 $(this).css('color', 'purple'); // 设置当前链接颜色为紫色
             });
-    
+
             // 滚动事件处理
             $(window).scroll(function () {
                 var toc = document.querySelector('.toc');
@@ -131,3 +135,4 @@
 </body>
 
 </html>
+
