@@ -86,140 +86,6 @@
             <div class="rule">
                 4.10 Should any contradictions and disputes arise, the RM and HMT shall reserve the right of final
                 decision.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
             </div>
         </div>
     </div>
@@ -293,78 +159,110 @@
     </style>
 
     <script>
-
-        $(document).ready(function () {
+$(document).ready(function () {
             var toc = document.querySelector('.toc');
-            var rule1 = document.querySelector('#rule1');
-            var tocPos = rule1.offsetTop;
-            var rules = document.querySelector('.rules');
-            var headings = document.querySelectorAll('.heading');
-            var tocLinks = document.querySelectorAll('.toc a');
-
-            toc.style.position = 'absolute';
-            toc.style.top = tocPos + 'px';
             toc.style.visibility = 'visible';
 
-            var interval = setInterval(() => {
-                if (rule1.offsetTop !== tocPos) {
-                    tocPos = rule1.offsetTop;
-                    toc.style.top = tocPos + 'px';
-                }
-            }, 20);
-            setTimeout(() => {
-                clearInterval(interval);
-            }, 1000);
-
-
-            tocLinks.forEach((link, index) => {
-                link.addEventListener('click', (e) => {
-                    $('html, body').animate({
-                        scrollTop: headings[index].offsetTop - 10
-                    }, 200);
-                });
+            $('.toc a').on('click', function (e) {
+                e.preventDefault(); 
+                var loadPage = $(this).data('load');
+                $('#rules-container').load(loadPage, function (response, status, xhr) {});
             });
 
-            $(window).scroll(function () {
-
+            $(window).on('scroll', function () {
                 var scrollPos = $(window).scrollTop();
-
-                if (scrollPos >= tocPos) {
+                if (scrollPos > 10) { 
                     toc.style.position = 'fixed';
                     toc.style.top = '10px';
                 } else {
-                    toc.style.position = 'absolute';
-                    toc.style.top = tocPos + 'px';
+                    toc.style.position = 'absolute'; 
+                    toc.style.top = '10px';
                 }
-
-                headings.forEach((heading, index) => {
-                    if (scrollPos >= heading.offsetTop - 20) {
-                        tocLinks.forEach((link) => {
-                            link.style.color = 'black';
-                            link.style.fontWeight = 'normal';
-
-                        });
-                        tocLinks[index].style.color = '#8c6cbf';
-                        tocLinks[index].style.fontWeight = 'bold';
-                    }
-                });
             });
-        });
 
-        var rules = document.querySelectorAll('.rule');
-        rules.forEach((rule) => {
-            rule.innerHTML = rule.innerHTML.replace(/(\d+\.\d+(\.\d+)?)/g, '$1&nbsp;&nbsp;&nbsp;');
-        });
+            var rules = document.querySelectorAll('.rule');
+            rules.forEach((rule) => {
+                rule.innerHTML = rule.innerHTML.replace(/(\d+\.\d+(\.\d+)?)/g, '$1&nbsp;&nbsp;&nbsp;');
+            });
 
-        var rules = document.querySelector('.rules');
-        var rule4 = document.querySelector('#rule4');
-        var height = window.innerHeight - rule4.offsetHeight
-        height = height > 20 ? height : 20;
-        rules.style.marginBottom = height + 'px';
+            var rulesContainer = document.querySelector('.rules');
+            var rule4 = document.querySelector('#rule4');
+            if (rule4) { 
+                var height = window.innerHeight - rule4.offsetHeight;
+                height = height > 20 ? height : 20;
+                rulesContainer.style.marginBottom = height + 'px';
+            }
         $("#rule1").load("rule1.html");
         $("#rule12").load("rule12.html");
         $("#rule13").load("rule13.html");
-        $("#rule14").load("rule14.html");
+        $("#rule14").load("rule14.html");});
+        // $(document).ready(function () {
+        //     var toc = document.querySelector('.toc');
+        //     var rule1 = document.querySelector('#rule1');
+        //     var tocPos = rule1.offsetTop;
+        //     var rules = document.querySelector('.rules');
+        //     var headings = document.querySelectorAll('.heading');
+        //     var tocLinks = document.querySelectorAll('.toc a');
+
+        //     toc.style.position = 'absolute';
+        //     toc.style.top = tocPos + 'px';
+        //     toc.style.visibility = 'visible';
+
+        //     var interval = setInterval(() => {
+        //         if (rule1.offsetTop !== tocPos) {
+        //             tocPos = rule1.offsetTop;
+        //             toc.style.top = tocPos + 'px';
+        //         }
+        //     }, 20);
+        //     setTimeout(() => {
+        //         clearInterval(interval);
+        //     }, 1000);
+
+
+        //     tocLinks.forEach((link, index) => {
+        //         link.addEventListener('click', (e) => {
+        //             $('html, body').animate({
+        //                 scrollTop: headings[index].offsetTop - 10
+        //             }, 200);
+        //         });
+        //     });
+
+        //     $(window).scroll(function () {
+
+        //         var scrollPos = $(window).scrollTop();
+
+        //         if (scrollPos >= tocPos) {
+        //             toc.style.position = 'fixed';
+        //             toc.style.top = '10px';
+        //         } else {
+        //             toc.style.position = 'absolute';
+        //             toc.style.top = tocPos + 'px';
+        //         }
+
+        //         headings.forEach((heading, index) => {
+        //             if (scrollPos >= heading.offsetTop - 20) {
+        //                 tocLinks.forEach((link) => {
+        //                     link.style.color = 'black';
+        //                     link.style.fontWeight = 'normal';
+
+        //                 });
+        //                 tocLinks[index].style.color = '#8c6cbf';
+        //                 tocLinks[index].style.fontWeight = 'bold';
+        //             }
+        //         });
+        //     });
+        // });
+
+        // var rules = document.querySelectorAll('.rule');
+        // rules.forEach((rule) => {
+        //     rule.innerHTML = rule.innerHTML.replace(/(\d+\.\d+(\.\d+)?)/g, '$1&nbsp;&nbsp;&nbsp;');
+        // });
+
+        // var rules = document.querySelector('.rules');
+        // var rule4 = document.querySelector('#rule4');
+        // var height = window.innerHeight - rule4.offsetHeight
+        // height = height > 20 ? height : 20;
+        // rules.style.marginBottom = height + 'px';
     </script>
 
 </body>
