@@ -5,14 +5,7 @@
 </head>
 
 <body>
-    <div class="toc">
-        <ul>
-            <li><a href="#rule1">Conduct</a></li>
-            <li><a href="#rule12">Visitors</a></li>
-            <li><a href="#rule13">Room & Identity</a></li>
-            <li><a href="#rule14">Hall Activities</a></li>
-        </ul>
-    </div>
+    
     <div class="rules">
 
         <div id="rule14">
@@ -90,6 +83,7 @@
         </div>
     </div>
 
+    
     <style>
         body {
             font-family: Outfit;
@@ -97,43 +91,14 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-color: #e6d1ff;
-            margin: 0;
+            margin-left:180px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        .toc {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background-color: #f1f1f1;
-            padding: 10px;
-            margin: 0;
-            list-style-type: none;
-            border-radius: 10px;
-            visibility: hidden;
-            width: 205px;
-        }
-
-        .toc ul {
-            padding: 0;
-            list-style-type: none;
-        }
-
-        .toc li {
-            margin: 10px 0;
-        }
-
-        .toc a {
-            text-decoration: none;
-            color: black;
-            font-size: 1.5em;
-        }
-
         .rules {
-            margin-left: 250px;
-            margin-bottom: 1000px;
+            margin: 20px;
         }
 
         .heading {
@@ -145,124 +110,6 @@
         .rule {
             margin-top: 10px;
         }
-
-        @media (max-width: 960px) {
-            .toc {
-                width: 80px;
-                font-size: small;
-            }
-
-            .rules {
-                margin-left: 120px;
-            }
-        }
     </style>
-
-    <script>
-        $(document).ready(function () {
-            var toc = document.querySelector('.toc');
-            var rules = document.querySelector('.rules');
-            var rule1 = document.querySelector('#rule1');
-            var headings = document.querySelectorAll('.heading');
-            var tocLinks = document.querySelectorAll('.toc a');
-
-            // 设置初始位置
-            toc.style.visibility = 'visible';
-            var tocPos = rules.offsetTop; // 根据规则区域顶部位置设置
-            toc.style.top = tocPos + 'px';
-
-            // 点击目录链接时加载相应的内容
-            $('.toc a').on('click', function (e) {
-                e.preventDefault(); // 阻止默认链接行为
-                var loadPage = $(this).data('load'); // 获取要加载的页面
-                $('#rules-container').load(loadPage, function (response, status, xhr) { });
-            });
-
-            $(window).scroll(function () {
-                var scrollPos = $(window).scrollTop();
-                if (scrollPos >= tocPos) {
-                    toc.style.position = 'fixed';
-                    toc.style.top = '10px'; // 固定在顶部
-                } else {
-                    toc.style.position = 'absolute';
-                    toc.style.top = tocPos + 'px'; // 恢复为绝对定位
-                }
-
-                // 高亮当前章节
-                headings.forEach((heading, index) => {
-                    if (scrollPos >= heading.offsetTop - 20) {
-                        tocLinks.forEach((link) => {
-                            link.style.color = 'black';
-                            link.style.fontWeight = 'normal';
-                        });
-                        tocLinks[index].style.color = '#8c6cbf';
-                        tocLinks[index].style.fontWeight = 'bold';
-                    }
-                });
-            });
-
-            // 格式化规则内容
-            var rulesElements = document.querySelectorAll('.rule');
-            rulesElements.forEach((rule) => {
-                rule.innerHTML = rule.innerHTML.replace(/(\d+\.\d+(\.\d+)?)/g, '$1&nbsp;&nbsp;&nbsp;');
-            });
-
-            // 设置规则区域的底部间距
-            var rule4 = document.querySelector('#rule4');
-            if (rule4) {
-                var height = window.innerHeight - rules.offsetHeight;
-                height = height > 20 ? height : 20;
-                rules.style.marginBottom = height + 'px';
-            }
-
-            // 加载初始内容
-            $("#rule1").load("rule1.html");
-            $("#rule12").load("rule12.html");
-            $("#rule13").load("rule13.html");
-            $("#rule14").load("rule14.html");
-        });
-        // $(document).ready(function () {
-        //     var toc = document.querySelector('.toc');
-        //     var rule1 = document.querySelector('#rule1');
-        //     var tocPos = rule1.offsetTop;
-        //     var rules = document.querySelector('.rules');
-        //     var headings = document.querySelectorAll('.heading');
-        //     var tocLinks = document.querySelectorAll('.toc a');
-
-        //
-
-        //     var interval = setInterval(() => {
-        //         if (rule1.offsetTop !== tocPos) {
-        //             tocPos = rule1.offsetTop;
-        //             toc.style.top = tocPos + 'px';
-        //         }
-        //     }, 20);
-        //     setTimeout(() => {
-        //         clearInterval(interval);
-        //     }, 1000);
-
-
-        //     tocLinks.forEach((link, index) => {
-        //         link.addEventListener('click', (e) => {
-        //             $('html, body').animate({
-        //                 scrollTop: headings[index].offsetTop - 10
-        //             }, 200);
-        //         });
-        //     });
-        // });
-
-        // var rules = document.querySelectorAll('.rule');
-        // rules.forEach((rule) => {
-        //     rule.innerHTML = rule.innerHTML.replace(/(\d+\.\d+(\.\d+)?)/g, '$1&nbsp;&nbsp;&nbsp;');
-        // });
-
-        // var rules = document.querySelector('.rules');
-        // var rule4 = document.querySelector('#rule4');
-        // var height = window.innerHeight - rule4.offsetHeight
-        // height = height > 20 ? height : 20;
-        // rules.style.marginBottom = height + 'px';
-    </script>
-
-</body>
 
 </html>

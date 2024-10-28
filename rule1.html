@@ -2,50 +2,10 @@
 
 <head>
     <title>Hall 9 - Rule 1</title>
-</head>
-
-<body>
-    <div class="toc">
-        <ul>
-            <li><a href="#rule1">Conduct</a></li>
-            <li><a href="#rule12">Visitors</a></li>
-            <li><a href="#rule13">Room & Identity</a></li>
-            <li><a href="#rule14">Hall Activities</a></li>
-        </ul>
-    </div>
-    <div class="rules">
-        <div id="rule1">
-            <div class="heading">1. Conduct</div>
-            <div class="rule">
-                1.1 Smoking is prohibited.
-            </div>
-            <div class="rule">
-                1.2 Loud and unreasonable noise is prohibited during the quiet hours between 11pm and 7am.
-            </div>
-            <div class="rule">
-                1.3 Open flames and the use or storage of inflammable substances are prohibited.
-            </div>
-            <div class="rule">
-                1.4 Cooking is allowed only in Common Rooms located on each floor and Room G04 on the ground floor.
-            </div>
-            <div class="rule">
-                1.5 Mahjong playing is prohibited in any part of the hall during the quiet hours between 11pm and
-                7am.
-            </div>
-            <div class="rule">
-                1.6 Residents are responsible for minding their belongings in the hall. Misconduct of thefts will be
-                subject to severe penalties.
-            </div>
-        </div>
-        
-    </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: Outfit;
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
             background-color: #e6d1ff;
             margin: 0;
             min-height: 100vh;
@@ -62,7 +22,6 @@
             margin: 0;
             list-style-type: none;
             border-radius: 10px;
-            visibility: hidden;
             width: 205px;
         }
 
@@ -86,19 +45,17 @@
             margin-bottom: 1000px;
         }
 
-        .heading {
-            font-size: 1.5em;
+        .loading {
+            display: none;
+            font-size: 1.2em;
+            color: #8c6cbf;
+            text-align: center;
             margin-top: 20px;
-            font-weight: bold;
-        }
-
-        .rule {
-            margin-top: 10px;
         }
 
         @media (max-width: 960px) {
             .toc {
-                width: 80px;
+                width: 160px;
                 font-size: small;
             }
 
@@ -107,110 +64,68 @@
             }
         }
     </style>
+</head>
+
+<body>
+    <div class="toc">
+        <ul>
+            <li><a href="#" data-load="rule11.html">Conduct</a></li>
+            <li><a href="#" data-load="rule12.html">Visitors</a></li>
+            <li><a href="#" data-load="rule13.html">Room & Identity</a></li>
+            <li><a href="#" data-load="rule14.html">Hall Activities</a></li>
+        </ul>
+    </div>
+
+    <div class="rules">
+        <div class="loading"></div>
+        <div id="content-container">
+        </div>
+    </div>
 
     <script>
-     $(document).ready(function () {
-            var toc = document.querySelector('.toc');
-            var rules = document.querySelector('.rules');
-            var rule1 = document.querySelector('#rule1');
-            var headings = document.querySelectorAll('.heading');
-            var tocLinks = document.querySelectorAll('.toc a');
-
-            // 设置初始位置
-            toc.style.visibility = 'visible';
-            var tocPos = rules.offsetTop; // 根据规则区域顶部位置设置
-            toc.style.top = tocPos + 'px';
-
-            // 点击目录链接时加载相应的内容
+        $(document).ready(function () {
+            // 初始加载内容
+            $("#content-container").load("rule11.html", function() {
+                $(".loading").hide(); // 隐藏加载指示器
+                $("#content-container").fadeIn(200); // 显示内容
+            });
+    
+            // 点击目录链接时直接替换内容
             $('.toc a').on('click', function (e) {
                 e.preventDefault(); // 阻止默认链接行为
                 var loadPage = $(this).data('load'); // 获取要加载的页面
-                $('#rules-container').load(loadPage, function (response, status, xhr) { });
+                
+                // 显示加载指示器
+                $(".loading").show();
+                $("#content-container").fadeOut(200, function () {
+                    $("#content-container").load(loadPage, function (response, status, xhr) {
+                        if (status == "error") {
+                            $("#content-container").html("<p>加载内容时出错: " + xhr.status + " " + xhr.statusText + "</p>");
+                        }
+                        // 隐藏加载指示器并淡入新内容
+                        $(".loading").hide();
+                        $("#content-container").fadeIn(200);
+                    });
+                });
+    
+                // 更新链接颜色
+                $('.toc a').css('color', 'black'); // 重置所有链接颜色
+                $(this).css('color', 'purple'); // 设置当前链接颜色为紫色
             });
-
+    
+            // 滚动事件处理
             $(window).scroll(function () {
+                var toc = document.querySelector('.toc');
                 var scrollPos = $(window).scrollTop();
-                if (scrollPos >= tocPos) {
+                if (scrollPos >= 20) {
                     toc.style.position = 'fixed';
                     toc.style.top = '10px'; // 固定在顶部
                 } else {
                     toc.style.position = 'absolute';
-                    toc.style.top = tocPos + 'px'; // 恢复为绝对定位
+                    toc.style.top = '20px'; // 恢复为绝对定位
                 }
-
-                // 高亮当前章节
-                headings.forEach((heading, index) => {
-                    if (scrollPos >= heading.offsetTop - 20) {
-                        tocLinks.forEach((link) => {
-                            link.style.color = 'black';
-                            link.style.fontWeight = 'normal';
-                        });
-                        tocLinks[index].style.color = '#8c6cbf';
-                        tocLinks[index].style.fontWeight = 'bold';
-                    }
-                });
             });
-
-            // 格式化规则内容
-            var rulesElements = document.querySelectorAll('.rule');
-            rulesElements.forEach((rule) => {
-                rule.innerHTML = rule.innerHTML.replace(/(\d+\.\d+(\.\d+)?)/g, '$1&nbsp;&nbsp;&nbsp;');
-            });
-
-            // 设置规则区域的底部间距
-            var rule4 = document.querySelector('#rule4');
-            if (rule4) {
-                var height = window.innerHeight - rules.offsetHeight;
-                height = height > 20 ? height : 20;
-                rules.style.marginBottom = height + 'px';
-            }
-
-            // 加载初始内容
-            $("#rule1").load("rule1.html");
-            $("#rule12").load("rule12.html");
-            $("#rule13").load("rule13.html");
-            $("#rule14").load("rule14.html");
         });
-        // $(document).ready(function () {
-        //     var toc = document.querySelector('.toc');
-        //     var rule1 = document.querySelector('#rule1');
-        //     var tocPos = rule1.offsetTop;
-        //     var rules = document.querySelector('.rules');
-        //     var headings = document.querySelectorAll('.heading');
-        //     var tocLinks = document.querySelectorAll('.toc a');
-
-        //     
-
-        //     var interval = setInterval(() => {
-        //         if (rule1.offsetTop !== tocPos) {
-        //             tocPos = rule1.offsetTop;
-        //             toc.style.top = tocPos + 'px';
-        //         }
-        //     }, 20);
-        //     setTimeout(() => {
-        //         clearInterval(interval);
-        //     }, 1000);
-
-
-        //     tocLinks.forEach((link, index) => {
-        //         link.addEventListener('click', (e) => {
-        //             $('html, body').animate({
-        //                 scrollTop: headings[index].offsetTop - 10
-        //             }, 200);
-        //         });
-        //     });
-        // });
-
-        // var rules = document.querySelectorAll('.rule');
-        // rules.forEach((rule) => {
-        //     rule.innerHTML = rule.innerHTML.replace(/(\d+\.\d+(\.\d+)?)/g, '$1&nbsp;&nbsp;&nbsp;');
-        // });
-
-        // var rules = document.querySelector('.rules');
-        // var rule4 = document.querySelector('#rule4');
-        // var height = window.innerHeight - rule4.offsetHeight
-        // height = height > 20 ? height : 20;
-        // rules.style.marginBottom = height + 'px';
     </script>
 
 </body>
