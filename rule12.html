@@ -123,28 +123,34 @@
     <script>
          $(document).ready(function () {
             var toc = document.querySelector('.toc');
+            var rules = document.querySelector('.rules');
+            var rule1 = document.querySelector('#rule1');
+            var headings = document.querySelectorAll('.heading');
+            var tocLinks = document.querySelectorAll('.toc a');
+
+            // 设置初始位置
             toc.style.visibility = 'visible';
-            var tocPos = rules.offsetTop;
-            toc.style.position = 'absolute';
+            var tocPos = rules.offsetTop; // 根据规则区域顶部位置设置
             toc.style.top = tocPos + 'px';
+
+            // 点击目录链接时加载相应的内容
             $('.toc a').on('click', function (e) {
-                e.preventDefault();
-                var loadPage = $(this).data('load');
+                e.preventDefault(); // 阻止默认链接行为
+                var loadPage = $(this).data('load'); // 获取要加载的页面
                 $('#rules-container').load(loadPage, function (response, status, xhr) { });
             });
 
             $(window).scroll(function () {
-
                 var scrollPos = $(window).scrollTop();
-
                 if (scrollPos >= tocPos) {
                     toc.style.position = 'fixed';
-                    toc.style.top = '10px';
+                    toc.style.top = '10px'; // 固定在顶部
                 } else {
                     toc.style.position = 'absolute';
-                    toc.style.top = tocPos + 'px';
+                    toc.style.top = tocPos + 'px'; // 恢复为绝对定位
                 }
 
+                // 高亮当前章节
                 headings.forEach((heading, index) => {
                     if (scrollPos >= heading.offsetTop - 20) {
                         tocLinks.forEach((link) => {
@@ -156,17 +162,22 @@
                     }
                 });
             });
-            var rules = document.querySelectorAll('.rule');
-            rules.forEach((rule) => {
+
+            // 格式化规则内容
+            var rulesElements = document.querySelectorAll('.rule');
+            rulesElements.forEach((rule) => {
                 rule.innerHTML = rule.innerHTML.replace(/(\d+\.\d+(\.\d+)?)/g, '$1&nbsp;&nbsp;&nbsp;');
             });
 
-            var rules = document.querySelector('.rules');
+            // 设置规则区域的底部间距
+            var rule4 = document.querySelector('#rule4');
             if (rule4) {
                 var height = window.innerHeight - rules.offsetHeight;
                 height = height > 20 ? height : 20;
                 rules.style.marginBottom = height + 'px';
             }
+
+            // 加载初始内容
             $("#rule1").load("rule1.html");
             $("#rule12").load("rule12.html");
             $("#rule13").load("rule13.html");
