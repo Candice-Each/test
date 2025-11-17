@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESG & Operations Dashboard</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a3c6e;
+            --secondary-color: #3498db;
+            --accent-color: #2980b9;
+            --light-bg: #f5f9fa;
+            --dark-text: #333;
+            --light-text: #fff;
+            --sidebar-width: 70px;
+            --chart-primary: #3498db;
+            --chart-secondary: #2ecc71;
+            --chart-accent: #e74c3c;
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark-text);
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .logo {
+            padding: 0 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .nav-links li.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .nav-links i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-links span {
+            display: none;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            min-width: 1200px;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .date-display {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Section Styles */
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        /* Map Section */
+        .map-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .region-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .region-selector label {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .region-selector select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            min-width: 200px;
+        }
+
+        .date-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-selector label {
+            font-weight: 600;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+
+        .date-selector input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            width: 150px;
+        }
+
+        .map-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .map {
+            flex: 1;
+            height: 500px;
+            background-color: #e9f5e9;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .building-list {
+            flex: 0 0 350px;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
+        .data-title {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .building-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            background-color: white;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .building-item.selected {
+            background-color: #e8f4fd;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .building-checkbox {
+            margin-right: 10px;
+            transform: scale(1.1);
+        }
+
+        .building-info {
+            flex: 1;
+        }
+
+        .building-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+            color: var(--primary-color);
+        }
+
+        .building-location {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Metrics Section */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+
+        .metric-title {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .metric-subvalue {
+            font-size: 16px;
+            color: #888;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--secondary-color);
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* Operations Section */
+        .operations-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: var(--dark-text);
+            font-size: 16px;
+        }
+
+        .metric-large {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-change {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .positive {
+            color: var(--chart-secondary);
+        }
+
+        .negative {
+            color: var(--chart-accent);
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: var(--dark-text);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .property-item {
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: var(--border-radius);
+        }
+
+        .property-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .property-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--chart-primary);
+            border-radius: 4px;
+        }
+
+        .expiring-leases {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .lease-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .lease-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .lease-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Property Types Horizontal Bar Chart */
+        .property-bar-container {
+            margin-top: 20px;
+        }
+
+        .property-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .property-bar-label {
+            width: 150px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .property-bar-values {
+            width: 80px;
+            text-align: right;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .property-bar-chart {
+            flex: 1;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .property-bar-fill {
+            height: 100%;
+            background-color: var(--chart-primary);
+            border-radius: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .main-content {
+                min-width: 1000px;
+            }
+            
+            .map-container {
+                flex-direction: column;
+            }
+            
+            .building-list {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+                <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span>Locations</span></a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> <span>Emissions</span></a></li>
+                <li><a href="#"><i class="fas fa-leaf"></i> <span>Energy</span></a></li>
+                <li><a href="#"><i class="fas fa-recycle"></i> <span>Waste</span></a></li>
+                <li><a href="#"><i class="fas fa-bullseye"></i> <span>Targets</span></a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>@ Operations & Maintenance Performance</h1>
+                <div class="date-display">November 2025</div>
+            </div>
+
+            <!-- Map Section -->
+            <div class="section">
+                <h2 class="section-title">Locations</h2>
+                <div class="map-controls">
+                    <div class="region-selector">
+                        <label for="region-select">Select Region:</label>
+                        <select id="region-select">
+                            <option value="all">All Regions</option>
+                            <option value="hongkong">Hong Kong</option>
+                            <option value="mainland">Mainland China</option>
+                            <option value="europe">Europe</option>
+                            <option value="usa">United States</option>
+                        </select>
+                    </div>
+                    <div class="date-selector">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" value="2023-11-12">
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" value="2024-11-12">
+                    </div>
+                    <div class="selected-info">
+                        <span id="selected-count">0 buildings selected</span>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <div class="map">
+                        <div id="map"></div>
+                    </div>
+                    <div class="building-list">
+                        <div class="data-title">
+                            <h3>Building List</h3>
+                            <span id="total-buildings">0 buildings</span>
+                        </div>
+                        <div id="building-list-container">
+                            <!-- Building list will be dynamically generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ESG Metrics Section -->
+            <div class="section">
+                <h2 class="section-title">ESG Performance</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">Cost Emissions</div>
+                        <div class="metric-value" id="total-cost-emissions">0</div>
+                        <div class="metric-subvalue" id="total-cost-emissions-sub">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Tester Consumption Reduced</div>
+                        <div class="metric-value" id="total-consumption">0 m²</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Renewable Energy Share</div>
+                        <div class="metric-value" id="total-renewable">0%</div>
+                        <div class="metric-subvalue" id="total-renewable-sub">0 MWh</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Total Energy Savings</div>
+                        <div class="metric-value" id="total-savings">0 kWh</div>
+                    </div>
+                </div>
+
+                <!-- ESG Targets Section -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">Reduce Energy Consumption by 15%</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 83.3%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>12.5%</span>
+                            <span>15%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Increase Waste Revenue to 37%</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 75.7%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>28%</span>
+                            <span>37%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operations Section -->
+            <div class="section">
+                <div class="operations-header">
+                    <h2 class="section-title">Operations & Maintenance</h2>
+                    <div class="date-display">November 2025</div>
+                </div>
+                
+                <div class="dashboard">
+                    <div class="card">
+                        <h3>Total Revenue</h3>
+                        <div class="metric-large" id="revenue-value">$0</div>
+                        <div class="metric-change" id="revenue-change">0% YoY</div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Total Profit</h3>
+                        <div class="metric-large" id="profit-value">$0</div>
+                        <div class="metric-change" id="profit-change">0 YoY</div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Net Promoter Score</h3>
+                        <div class="metric-large" id="nps-value">0</div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Occupancy Rate</h3>
+                        <div class="metric-large" id="occupancy-value">0%</div>
+                        <div class="metric-change" id="occupancy-change">0%</div>
+                    </div>
+                </div>
+                
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <div class="chart-title">Rental Income vs Operation Cost</div>
+                        <div class="chart-container">
+                            <canvas id="incomeCostChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-title">Occupancy vs Vacancy</div>
+                        <div class="chart-container">
+                            <canvas id="occupancyChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-title">Properties Rented by Month</div>
+                        <div class="chart-container">
+                            <canvas id="rentedByMonthChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-title">Number of Renewed Contracts</div>
+                        <div class="chart-container">
+                            <canvas id="renewedChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-title">Properties Rented by Type</div>
+                    <div class="property-bar-container" id="property-types">
+                        <!-- Property types will be dynamically generated here -->
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-title">Leases are Expiring</div>
+                    <div class="expiring-leases" id="expiring-leases">
+                        <!-- Expiring leases will be dynamically generated here -->
+                    </div>
+                    
+                    <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+                        <div>
+                            <h3>No. of New Leads</h3>
+                            <div class="metric-large" id="new-leads">0</div>
+                            <div class="metric-change" id="new-leads-change">0 YoY</div>
+                        </div>
+                        
+                        <div>
+                            <h3>Average Lease Duration</h3>
+                            <div class="metric-large" id="lease-duration">0 months</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // 地区中心坐标和缩放级别
+        const regionCenters = {
+            "hongkong": { center: [22.3193, 114.1694], zoom: 11 },
+            "mainland": { center: [35.8617, 104.1954], zoom: 4 },
+            "europe": { center: [50.1109, 10.0173], zoom: 4 },
+            "usa": { center: [39.8283, -98.5795], zoom: 4 }
+        };
+
+        // Building data with individual metrics
+        const buildingData = {
+            // 香港3个
+            "building-a": {
+                name: "Building A",
+                location: "Central, Hong Kong",
+                region: "hongkong",
+                coordinates: [22.2820, 114.1584],
+                costEmissions: [10234.6, 102324.6],
+                testerConsumption: 250,
+                renewableEnergy: [20, 1000],
+                energySavings: 18500,
+                // 运营数据
+                revenue: 412324,
+                revenueChange: 2.031,
+                profit: 221324.50,
+                profitChange: -52201,
+                nps: 90,
+                occupancy: 92.8,
+                occupancyChange: -1.22,
+                // 租金收入数据 (从1月到2月略微下降，然后上升到8月，再下降)
+                incomeData: [380000, 370000, 390000, 400000, 410000, 420000, 430000, 440000, 430000, 420000, 410000, 400000],
+                // 运营成本数据 (从100k波动上升到200K)
+                costData: [100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 210000],
+                // 入住率数据 (93%左右)
+                occupancyData: { occupied: 93, vacant: 7 },
+                // 每月租赁情况 (总和7 9 11 11 11 11 12 12 11 11 11 11，Rented jan6 may8其余为7)
+                rentedByMonth: [6, 7, 7, 7, 8, 7, 7, 7, 7, 7, 7, 7],
+                availableByMonth: [1, 2, 4, 4, 3, 4, 4, 5, 4, 4, 4, 4],
+                // 续约合同数量 (趋势类似租金收入)
+                renewedContracts: [12, 11, 13, 14, 15, 16, 17, 18, 17, 16, 15, 14],
+                // 物业类型数据
+                propertyTypes: [
+                    { name: "Big Studio", rented: 333, total: 341, percentage: 97.7 },
+                    { name: "Middle Studio", rented: 228, total: 338, percentage: 67.5 },
+                    { name: "Smaller Studio", rented: 150, total: 272, percentage: 55.1 },
+                    { name: "3 Bed Apartment", rented: 339, total: 375, percentage: 90.4 },
+                    { name: "2 Bed Apartment", rented: 188, total: 200, percentage: 94 },
+                    { name: "1 Bed Apartment", rented: 330, total: 330, percentage: 100 }
+                ],
+                // 到期租约数据
+                expiringLeases: [
+                    { value: "$124,245", label: "Total Value" },
+                    { value: "$245,000", label: "Potential Renewal" },
+                    { value: "$321,000", label: "Additional Value" },
+                    { value: "46", label: "Units" },
+                    { value: "8", label: "< 30 Days" },
+                    { value: "16", label: "31-60 Days" },
+                    { value: "22", label: "61-90 Days" }
+                ],
+                newLeads: 145,
+                newLeadsChange: 41,
+                leaseDuration: 15.6
+            },
+            "building-b": {
+                name: "Building B",
+                location: "Kowloon, Hong Kong",
+                region: "hongkong",
+                coordinates: [22.3167, 114.1833],
+                costEmissions: [8234.2, 82342.0],
+                testerConsumption: 180,
+                renewableEnergy: [25, 1250],
+                energySavings: 15200,
+                // 运营数据
+                revenue: 375000,
+                revenueChange: 1.8,
+                profit: 195000,
+                profitChange: -45000,
+                nps: 88,
+                occupancy: 89.5,
+                occupancyChange: -0.8,
+                // 租金收入数据 (从1月到2月略微下降，然后上升到8月，再下降)
+                incomeData: [360000, 350000, 370000, 380000, 390000, 400000, 410000, 420000, 410000, 400000, 390000, 380000],
+                // 运营成本数据 (从100k波动上升到200K)
+                costData: [95000, 105000, 115000, 125000, 135000, 145000, 155000, 165000, 175000, 185000, 195000, 205000],
+                // 入住率数据 (93%左右)
+                occupancyData: { occupied: 92, vacant: 8 },
+                // 每月租赁情况 (总和7 9 11 11 11 11 12 12 11 11 11 11，Rented jan6 may8其余为7)
+                rentedByMonth: [6, 7, 7, 7, 8, 7, 7, 7, 7, 7, 7, 7],
+                availableByMonth: [1, 2, 4, 4, 3, 4, 4, 5, 4, 4, 4, 4],
+                // 续约合同数量 (趋势类似租金收入)
+                renewedContracts: [11, 10, 12, 13, 14, 15, 16, 17, 16, 15, 14, 13],
+                // 物业类型数据
+                propertyTypes: [
+                    { name: "Big Studio", rented: 310, total: 320, percentage: 96.9 },
+                    { name: "Middle Studio", rented: 210, total: 320, percentage: 65.6 },
+                    { name: "Smaller Studio", rented: 140, total: 260, percentage: 53.8 },
+                    { name: "3 Bed Apartment", rented: 320, total: 350, percentage: 91.4 },
+                    { name: "2 Bed Apartment", rented: 175, total: 190, percentage: 92.1 },
+                    { name: "1 Bed Apartment", rented: 315, total: 315, percentage: 100 }
+                ],
+                // 到期租约数据
+                expiringLeases: [
+                    { value: "$115,000", label: "Total Value" },
+                    { value: "$230,000", label: "Potential Renewal" },
+                    { value: "$305,000", label: "Additional Value" },
+                    { value: "42", label: "Units" },
+                    { value: "7", label: "< 30 Days" },
+                    { value: "15", label: "31-60 Days" },
+                    { value: "20", label: "61-90 Days" }
+                ],
+                newLeads: 130,
+                newLeadsChange: 35,
+                leaseDuration: 14.8
+            },
+            "building-c": {
+                name: "Building C",
+                location: "Wan Chai, Hong Kong",
+                region: "hongkong",
+                coordinates: [22.2793, 114.1729],
+                costEmissions: [11250.8, 112508.0],
+                testerConsumption: 320,
+                renewableEnergy: [15, 750],
+                energySavings: 21000,
+                // 运营数据
+                revenue: 450000,
+                revenueChange: 2.5,
+                profit: 240000,
+                profitChange: -38000,
+                nps: 92,
+                occupancy: 95.2,
+                occupancyChange: 0.5,
+                // 租金收入数据 (从1月到2月略微下降，然后上升到8月，再下降)
+                incomeData: [390000, 380000, 400000, 410000, 420000, 430000, 440000, 450000, 440000, 430000, 420000, 410000],
+                // 运营成本数据 (从100k波动上升到200K)
+                costData: [105000, 115000, 125000, 135000, 145000, 155000, 165000, 175000, 185000, 195000, 205000, 215000],
+                // 入住率数据 (93%左右)
+                occupancyData: { occupied: 94, vacant: 6 },
+                // 每月租赁情况 (总和7 9 11 11 11 11 12 12 11 11 11 11，Rented jan6 may8其余为7)
+                rentedByMonth: [6, 7, 7, 7, 8, 7, 7, 7, 7, 7, 7, 7],
+                availableByMonth: [1, 2, 4, 4, 3, 4, 4, 5, 4, 4, 4, 4],
+                // 续约合同数量 (趋势类似租金收入)
+                renewedContracts: [13, 12, 14, 15, 16, 17, 18, 19, 18, 17, 16, 15],
+                // 物业类型数据
+                propertyTypes: [
+                    { name: "Big Studio", rented: 350, total: 360, percentage: 97.2 },
+                    { name: "Middle Studio", rented: 240, total: 350, percentage: 68.6 },
+                    { name: "Smaller Studio", rented: 160, total: 280, percentage: 57.1 },
+                    { name: "3 Bed Apartment", rented: 345, total: 380, percentage: 90.8 },
+                    { name: "2 Bed Apartment", rented: 190, total: 205, percentage: 92.7 },
+                    { name: "1 Bed Apartment", rented: 340, total: 340, percentage: 100 }
+                ],
+                // 到期租约数据
+                expiringLeases: [
+                    { value: "$135,000", label: "Total Value" },
+                    { value: "$260,000", label: "Potential Renewal" },
+                    { value: "$335,000", label: "Additional Value" },
+                    { value: "48", label: "Units" },
+                    { value: "9", label: "< 30 Days" },
+                    { value: "17", label: "31-60 Days" },
+                    { value: "22", label: "61-90 Days" }
+                ],
+                newLeads: 160,
+                newLeadsChange: 45,
+                leaseDuration: 16.2
+            },
+            // 大陆1个
+            "building-d": {
+                name: "Building D",
+                location: "Beijing, China",
+                region: "mainland",
+                coordinates: [39.9042, 116.4074],
+                costEmissions: [11800.2, 118002.0],
+                testerConsumption: 280,
+                renewableEnergy: [22, 1100],
+                energySavings: 19500,
+                // 运营数据
+                revenue: 520000,
+                revenueChange: 3.2,
+                profit: 280000,
+                profitChange: -35000,
+                nps: 89,
+                occupancy: 93.5,
+                occupancyChange: 0.8,
+                // 租金收入数据 (从1月到2月略微下降，然后上升到8月，再下降)
+                incomeData: [400000, 390000, 410000, 420000, 430000, 440000, 450000, 460000, 450000, 440000, 430000, 420000],
+                // 运营成本数据 (从100k波动上升到200K)
+                costData: [110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 210000, 220000],
+                // 入住率数据 (93%左右)
+                occupancyData: { occupied: 93, vacant: 7 },
+                // 每月租赁情况 (总和7 9 11 11 11 11 12 12 11 11 11 11，Rented jan6 may8其余为7)
+                rentedByMonth: [6, 7, 7, 7, 8, 7, 7, 7, 7, 7, 7, 7],
+                availableByMonth: [1, 2, 4, 4, 3, 4, 4, 5, 4, 4, 4, 4],
+                // 续约合同数量 (趋势类似租金收入)
+                renewedContracts: [14, 13, 15, 16, 17, 18, 19, 20, 19, 18, 17, 16],
+                // 物业类型数据
+                propertyTypes: [
+                    { name: "Big Studio", rented: 360, total: 370, percentage: 97.3 },
+                    { name: "Middle Studio", rented: 250, total: 360, percentage: 69.4 },
+                    { name: "Smaller Studio", rented: 170, total: 290, percentage: 58.6 },
+                    { name: "3 Bed Apartment", rented: 350, total: 385, percentage: 90.9 },
+                    { name: "2 Bed Apartment", rented: 195, total: 210, percentage: 92.9 },
+                    { name: "1 Bed Apartment", rented: 345, total: 345, percentage: 100 }
+                ],
+                // 到期租约数据
+                expiringLeases: [
+                    { value: "$145,000", label: "Total Value" },
+                    { value: "$275,000", label: "Potential Renewal" },
+                    { value: "$350,000", label: "Additional Value" },
+                    { value: "50", label: "Units" },
+                    { value: "10", label: "< 30 Days" },
+                    { value: "18", label: "31-60 Days" },
+                    { value: "22", label: "61-90 Days" }
+                ],
+                newLeads: 175,
+                newLeadsChange: 48,
+                leaseDuration: 16.8
+            },
+            // 欧洲1个
+            "building-e": {
+                name: "Building E",
+                location: "London, UK",
+                region: "europe",
+                coordinates: [51.5074, -0.1278],
+                costEmissions: [8900.1, 89001.0],
+                testerConsumption: 190,
+                renewableEnergy: [35, 1750],
+                energySavings: 14200,
+                // 运营数据
+                revenue: 480000,
+                revenueChange: 2.8,
+                profit: 260000,
+                profitChange: -32000,
+                nps: 88,
+                occupancy: 91.5,
+                occupancyChange: 0.3,
+                // 租金收入数据 (从1月到2月略微下降，然后上升到8月，再下降)
+                incomeData: [370000, 360000, 380000, 390000, 400000, 410000, 420000, 430000, 420000, 410000, 400000, 390000],
+                // 运营成本数据 (从100k波动上升到200K)
+                costData: [100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 210000],
+                // 入住率数据 (93%左右)
+                occupancyData: { occupied: 92, vacant: 8 },
+                // 每月租赁情况 (总和7 9 11 11 11 11 12 12 11 11 11 11，Rented jan6 may8其余为7)
+                rentedByMonth: [6, 7, 7, 7, 8, 7, 7, 7, 7, 7, 7, 7],
+                availableByMonth: [1, 2, 4, 4, 3, 4, 4, 5, 4, 4, 4, 4],
+                // 续约合同数量 (趋势类似租金收入)
+                renewedContracts: [12, 11, 13, 14, 15, 16, 17, 18, 17, 16, 15, 14],
+                // 物业类型数据
+                propertyTypes: [
+                    { name: "Big Studio", rented: 340, total: 350, percentage: 97.1 },
+                    { name: "Middle Studio", rented: 230, total: 340, percentage: 67.6 },
+                    { name: "Smaller Studio", rented: 155, total: 275, percentage: 56.4 },
+                    { name: "3 Bed Apartment", rented: 335, total: 370, percentage: 90.5 },
+                    { name: "2 Bed Apartment", rented: 185, total: 195, percentage: 94.9 },
+                    { name: "1 Bed Apartment", rented: 325, total: 325, percentage: 100 }
+                ],
+                // 到期租约数据
+                expiringLeases: [
+                    { value: "$130,000", label: "Total Value" },
+                    { value: "$250,000", label: "Potential Renewal" },
+                    { value: "$325,000", label: "Additional Value" },
+                    { value: "45", label: "Units" },
+                    { value: "8", label: "< 30 Days" },
+                    { value: "16", label: "31-60 Days" },
+                    { value: "21", label: "61-90 Days" }
+                ],
+                newLeads: 155,
+                newLeadsChange: 42,
+                leaseDuration: 15.9
+            },
+            // 美国1个
+            "building-f": {
+                name: "Building F",
+                location: "New York, USA",
+                region: "usa",
+                coordinates: [40.7128, -74.0060],
+                costEmissions: [10234.6, 102324.6],
+                testerConsumption: 250,
+                renewableEnergy: [20, 1000],
+                energySavings: 18500,
+                // 运营数据
+                revenue: 550000,
+                revenueChange: 3.5,
+                profit: 300000,
+                profitChange: -25000,
+                nps: 92,
+                occupancy: 94.8,
+                occupancyChange: 1.0,
+                // 租金收入数据 (从1月到2月略微下降，然后上升到8月，再下降)
+                incomeData: [420000, 410000, 430000, 440000, 450000, 460000, 470000, 480000, 470000, 460000, 450000, 440000],
+                // 运营成本数据 (从100k波动上升到200K)
+                costData: [115000, 125000, 135000, 145000, 155000, 165000, 175000, 185000, 195000, 205000, 215000, 225000],
+                // 入住率数据 (93%左右)
+                occupancyData: { occupied: 95, vacant: 5 },
+                // 每月租赁情况 (总和7 9 11 11 11 11 12 12 11 11 11 11，Rented jan6 may8其余为7)
+                rentedByMonth: [6, 7, 7, 7, 8, 7, 7, 7, 7, 7, 7, 7],
+                availableByMonth: [1, 2, 4, 4, 3, 4, 4, 5, 4, 4, 4, 4],
+                // 续约合同数量 (趋势类似租金收入)
+                renewedContracts: [15, 14, 16, 17, 18, 19, 20, 21, 20, 19, 18, 17],
+                // 物业类型数据
+                propertyTypes: [
+                    { name: "Big Studio", rented: 370, total: 380, percentage: 97.4 },
+                    { name: "Middle Studio", rented: 260, total: 370, percentage: 70.3 },
+                    { name: "Smaller Studio", rented: 175, total: 300, percentage: 58.3 },
+                    { name: "3 Bed Apartment", rented: 360, total: 395, percentage: 91.1 },
+                    { name: "2 Bed Apartment", rented: 200, total: 215, percentage: 93.0 },
+                    { name: "1 Bed Apartment", rented: 350, total: 350, percentage: 100 }
+                ],
+                // 到期租约数据
+                expiringLeases: [
+                    { value: "$155,000", label: "Total Value" },
+                    { value: "$285,000", label: "Potential Renewal" },
+                    { value: "$365,000", label: "Additional Value" },
+                    { value: "52", label: "Units" },
+                    { value: "11", label: "< 30 Days" },
+                    { value: "19", label: "31-60 Days" },
+                    { value: "22", label: "61-90 Days" }
+                ],
+                newLeads: 185,
+                newLeadsChange: 50,
+                leaseDuration: 17.2
+            }
+        };
+
+        // DOM elements
+        const regionSelect = document.getElementById('region-select');
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+        const selectedCount = document.getElementById('selected-count');
+        const totalBuildings = document.getElementById('total-buildings');
+        const buildingListContainer = document.getElementById('building-list-container');
+        
+        // Total metrics elements
+        const totalCostEmissions = document.getElementById('total-cost-emissions');
+        const totalCostEmissionsSub = document.getElementById('total-cost-emissions-sub');
+        const totalConsumption = document.getElementById('total-consumption');
+        const totalRenewable = document.getElementById('total-renewable');
+        const totalRenewableSub = document.getElementById('total-renewable-sub');
+        const totalSavings = document.getElementById('total-savings');
+
+        // Operations metrics elements
+        const revenueValue = document.getElementById('revenue-value');
+        const revenueChange = document.getElementById('revenue-change');
+        const profitValue = document.getElementById('profit-value');
+        const profitChange = document.getElementById('profit-change');
+        const npsValue = document.getElementById('nps-value');
+        const occupancyValue = document.getElementById('occupancy-value');
+        const occupancyChange = document.getElementById('occupancy-change');
+        const newLeads = document.getElementById('new-leads');
+        const newLeadsChange = document.getElementById('new-leads-change');
+        const leaseDuration = document.getElementById('lease-duration');
+
+        // Chart instances
+        let incomeCostChart, occupancyChart, rentedByMonthChart, renewedChart;
+
+        // Initialize selected buildings
+        let selectedBuildings = [];
+        let map;
+        let markers = {};
+
+        // Initialize the map
+        function initMap() {
+            // Create map centered on world view
+            map = L.map('map').setView([30, 0], 2);
+            
+            // Add tile layer (OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Add markers for each building
+            Object.keys(buildingData).forEach(buildingId => {
+                const building = buildingData[buildingId];
+                
+                // Create custom marker
+                const marker = L.circleMarker(building.coordinates, {
+                    color: '#ff5722',
+                    fillColor: '#ff5722',
+                    fillOpacity: 0.8,
+                    radius: 10,
+                    weight: 2
+                }).addTo(map);
+                
+                // Add popup
+                marker.bindPopup(`
+                    <b>${building.name}</b><br>
+                    ${building.location}<br>
+                    Cost Emissions: ${building.costEmissions[0].toLocaleString()}<br>
+                    Energy Savings: ${building.energySavings.toLocaleString()} kWh
+                `);
+                
+                // Store marker reference
+                markers[buildingId] = marker;
+                
+                // Add click event to select building
+                marker.on('click', function() {
+                    toggleBuildingSelection(buildingId);
+                });
+            });
+        }
+
+        // Update building list based on selected region
+        function updateBuildingList() {
+            const selectedRegion = regionSelect.value;
+            
+            // Clear existing list
+            buildingListContainer.innerHTML = '';
+            
+            // Add building items based on selected region
+            Object.keys(buildingData).forEach(buildingId => {
+                const building = buildingData[buildingId];
+                
+                if (selectedRegion === 'all' || building.region === selectedRegion) {
+                    const buildingItem = document.createElement('div');
+                    buildingItem.className = 'building-item';
+                    buildingItem.dataset.buildingId = buildingId;
+                    
+                    if (selectedBuildings.includes(buildingId)) {
+                        buildingItem.classList.add('selected');
+                    }
+                    
+                    buildingItem.innerHTML = `
+                        <input type="checkbox" class="building-checkbox" ${selectedBuildings.includes(buildingId) ? 'checked' : ''}>
+                        <div class="building-info">
+                            <div class="building-name">${building.name}</div>
+                            <div class="building-location">${building.location}</div>
+                        </div>
+                    `;
+                    
+                    // Add click event to entire building item
+                    buildingItem.addEventListener('click', function(e) {
+                        // 防止点击复选框时触发两次
+                        if (e.target.type !== 'checkbox') {
+                            toggleBuildingSelection(buildingId);
+                        }
+                    });
+                    
+                    // Add event listener for checkbox
+                    const checkbox = buildingItem.querySelector('.building-checkbox');
+                    checkbox.addEventListener('change', function() {
+                        toggleBuildingSelection(buildingId);
+                    });
+                    
+                    buildingListContainer.appendChild(buildingItem);
+                }
+            });
+            
+            // Update building count
+            const regionBuildingsCount = Object.keys(buildingData).filter(id => 
+                selectedRegion === 'all' || buildingData[id].region === selectedRegion
+            ).length;
+            totalBuildings.textContent = `${regionBuildingsCount} buildings`;
+        }
+
+        // Toggle building selection
+        function toggleBuildingSelection(buildingId) {
+            if (selectedBuildings.includes(buildingId)) {
+                selectedBuildings = selectedBuildings.filter(id => id !== buildingId);
+                markers[buildingId].setStyle({
+                    fillColor: '#ff5722',
+                    color: '#ff5722',
+                    radius: 10
+                });
+            } else {
+                selectedBuildings.push(buildingId);
+                markers[buildingId].setStyle({
+                    fillColor: '#3498db',
+                    color: '#3498db',
+                    radius: 12
+                });
+            }
+            
+            updateDisplay();
+        }
+
+        // Function to update the display based on selected buildings
+        function updateDisplay() {
+            // Update selected buildings count
+            selectedCount.textContent = `${selectedBuildings.length} building${selectedBuildings.length !== 1 ? 's' : ''} selected`;
+            
+            // Update building list styling
+            document.querySelectorAll('.building-item').forEach(item => {
+                const buildingId = item.dataset.buildingId;
+                if (selectedBuildings.includes(buildingId)) {
+                    item.classList.add('selected');
+                    item.querySelector('.building-checkbox').checked = true;
+                } else {
+                    item.classList.remove('selected');
+                    item.querySelector('.building-checkbox').checked = false;
+                }
+            });
+            
+            // Update total metrics
+            updateTotalMetrics();
+            
+            // Update operations data and charts
+            updateOperationsData();
+        }
+
+        // Function to update total metrics based on selected buildings
+        function updateTotalMetrics() {
+            if (selectedBuildings.length === 0) {
+                totalCostEmissions.textContent = '0';
+                totalCostEmissionsSub.textContent = '0';
+                totalConsumption.textContent = '0 m²';
+                totalRenewable.textContent = '0%';
+                totalRenewableSub.textContent = '0 MWh';
+                totalSavings.textContent = '0 kWh';
+                return;
+            }
+            
+            let totalCostEmissions1 = 0;
+            let totalCostEmissions2 = 0;
+            let totalConsumptionVal = 0;
+            let totalRenewablePercent = 0;
+            let totalRenewableMWh = 0;
+            let totalSavingsVal = 0;
+            
+            // Calculate totals for selected buildings
+            selectedBuildings.forEach(buildingId => {
+                const building = buildingData[buildingId];
+                if (building) {
+                    totalCostEmissions1 += building.costEmissions[0];
+                    totalCostEmissions2 += building.costEmissions[1];
+                    totalConsumptionVal += building.testerConsumption;
+                    totalRenewablePercent += building.renewableEnergy[0];
+                    totalRenewableMWh += building.renewableEnergy[1];
+                    totalSavingsVal += building.energySavings;
+                }
+            });
+            
+            // Update total metrics
+            totalCostEmissions.textContent = totalCostEmissions1.toLocaleString();
+            totalCostEmissionsSub.textContent = totalCostEmissions2.toLocaleString();
+            totalConsumption.textContent = `${totalConsumptionVal} m²`;
+            totalRenewable.textContent = `${Math.round(totalRenewablePercent / selectedBuildings.length)}%`;
+            totalRenewableSub.textContent = `${totalRenewableMWh.toLocaleString()} MWh`;
+            totalSavings.textContent = `${totalSavingsVal.toLocaleString()} kWh`;
+        }
+
+        // Function to update operations data based on selected buildings
+        function updateOperationsData() {
+            if (selectedBuildings.length === 0) {
+                // Reset to default values when no buildings are selected
+                revenueValue.textContent = '$0';
+                revenueChange.textContent = '0% YoY';
+                revenueChange.className = 'metric-change';
+                
+                profitValue.textContent = '$0';
+                profitChange.textContent = '0 YoY';
+                profitChange.className = 'metric-change';
+                
+                npsValue.textContent = '0';
+                occupancyValue.textContent = '0%';
+                occupancyChange.textContent = '0%';
+                occupancyChange.className = 'metric-change';
+                
+                newLeads.textContent = '0';
+                newLeadsChange.textContent = '0 YoY';
+                newLeadsChange.className = 'metric-change';
+                
+                leaseDuration.textContent = '0 months';
+                
+                // Reset charts
+                resetCharts();
+                resetPropertyTypes();
+                resetExpiringLeases();
+                return;
+            }
+            
+            // Initialize aggregated data
+            let aggregatedData = {
+                revenue: 0,
+                revenueChange: 0,
+                profit: 0,
+                profitChange: 0,
+                nps: 0,
+                occupancy: 0,
+                occupancyChange: 0,
+                incomeData: Array(12).fill(0),
+                costData: Array(12).fill(0),
+                occupancyData: { occupied: 0, vacant: 0 },
+                rentedByMonth: Array(12).fill(0),
+                availableByMonth: Array(12).fill(0),
+                renewedContracts: Array(12).fill(0),
+                propertyTypes: [],
+                expiringLeases: [],
+                newLeads: 0,
+                newLeadsChange: 0,
+                leaseDuration: 0
+            };
+            
+            // Aggregate data from selected buildings
+            selectedBuildings.forEach(buildingId => {
+                const building = buildingData[buildingId];
+                if (building) {
+                    aggregatedData.revenue += building.revenue;
+                    aggregatedData.revenueChange += building.revenueChange;
+                    aggregatedData.profit += building.profit;
+                    aggregatedData.profitChange += building.profitChange;
+                    aggregatedData.nps += building.nps;
+                    aggregatedData.occupancy += building.occupancy;
+                    aggregatedData.occupancyChange += building.occupancyChange;
+                    
+                    for (let i = 0; i < 12; i++) {
+                        aggregatedData.incomeData[i] += building.incomeData[i];
+                        aggregatedData.costData[i] += building.costData[i];
+                        aggregatedData.rentedByMonth[i] += building.rentedByMonth[i];
+                        aggregatedData.availableByMonth[i] += building.availableByMonth[i];
+                        aggregatedData.renewedContracts[i] += building.renewedContracts[i];
+                    }
+                    
+                    aggregatedData.occupancyData.occupied += building.occupancyData.occupied;
+                    aggregatedData.occupancyData.vacant += building.occupancyData.vacant;
+                    
+                    aggregatedData.newLeads += building.newLeads;
+                    aggregatedData.newLeadsChange += building.newLeadsChange;
+                    aggregatedData.leaseDuration += building.leaseDuration;
+                }
+            });
+            
+            // Calculate averages
+            const count = selectedBuildings.length;
+            aggregatedData.revenueChange = (aggregatedData.revenueChange / count).toFixed(3);
+            aggregatedData.profitChange = aggregatedData.profitChange / count;
+            aggregatedData.nps = Math.round(aggregatedData.nps / count);
+            aggregatedData.occupancy = (aggregatedData.occupancy / count).toFixed(1);
+            aggregatedData.occupancyChange = (aggregatedData.occupancyChange / count).toFixed(2);
+            aggregatedData.occupancyData.occupied = Math.round(aggregatedData.occupancyData.occupied / count);
+            aggregatedData.occupancyData.vacant = Math.round(aggregatedData.occupancyData.vacant / count);
+            aggregatedData.newLeadsChange = aggregatedData.newLeadsChange / count;
+            aggregatedData.leaseDuration = (aggregatedData.leaseDuration / count).toFixed(1);
+            
+            // Update operations metrics
+            revenueValue.textContent = `$${aggregatedData.revenue.toLocaleString()}`;
+            revenueChange.textContent = `${aggregatedData.revenueChange > 0 ? '+' : ''}${aggregatedData.revenueChange}% YoY`;
+            revenueChange.className = `metric-change ${aggregatedData.revenueChange >= 0 ? 'positive' : 'negative'}`;
+            
+            profitValue.textContent = `$${aggregatedData.profit.toLocaleString()}`;
+            profitChange.textContent = `${aggregatedData.profitChange > 0 ? '+' : ''}${Math.round(aggregatedData.profitChange).toLocaleString()} YoY`;
+            profitChange.className = `metric-change ${aggregatedData.profitChange >= 0 ? 'positive' : 'negative'}`;
+            
+            npsValue.textContent = aggregatedData.nps;
+            occupancyValue.textContent = `${aggregatedData.occupancy}%`;
+            occupancyChange.textContent = `${aggregatedData.occupancyChange > 0 ? '+' : ''}${aggregatedData.occupancyChange}%`;
+            occupancyChange.className = `metric-change ${aggregatedData.occupancyChange >= 0 ? 'positive' : 'negative'}`;
+            
+            newLeads.textContent = aggregatedData.newLeads;
+            newLeadsChange.textContent = `${aggregatedData.newLeadsChange > 0 ? '+' : ''}${Math.round(aggregatedData.newLeadsChange)} YoY`;
+            newLeadsChange.className = `metric-change ${aggregatedData.newLeadsChange >= 0 ? 'positive' : 'negative'}`;
+            
+            leaseDuration.textContent = `${aggregatedData.leaseDuration} months`;
+            
+            // Update charts
+            updateCharts(aggregatedData);
+            
+            // Update property types
+            updatePropertyTypes(selectedBuildings);
+            
+            // Update expiring leases
+            updateExpiringLeases(selectedBuildings);
+        }
+
+        // Function to reset charts to empty state
+        function resetCharts() {
+            if (incomeCostChart) {
+                incomeCostChart.data.datasets[0].data = Array(12).fill(0);
+                incomeCostChart.data.datasets[1].data = Array(12).fill(0);
+                incomeCostChart.update();
+            }
+            
+            if (occupancyChart) {
+                occupancyChart.data.datasets[0].data = [0, 0];
+                occupancyChart.update();
+            }
+            
+            if (rentedByMonthChart) {
+                rentedByMonthChart.data.datasets[0].data = Array(12).fill(0);
+                rentedByMonthChart.data.datasets[1].data = Array(12).fill(0);
+                rentedByMonthChart.update();
+            }
+            
+            if (renewedChart) {
+                renewedChart.data.datasets[0].data = Array(12).fill(0);
+                renewedChart.update();
+            }
+        }
+
+        // Function to reset property types to empty state
+        function resetPropertyTypes() {
+            const propertyTypesContainer = document.getElementById('property-types');
+            propertyTypesContainer.innerHTML = '';
+            
+            const defaultTypes = [
+                { name: "Big Studio", rented: 0, total: 0, percentage: 0 },
+                { name: "Middle Studio", rented: 0, total: 0, percentage: 0 },
+                { name: "Smaller Studio", rented: 0, total: 0, percentage: 0 },
+                { name: "3 Bed Apartment", rented: 0, total: 0, percentage: 0 },
+                { name: "2 Bed Apartment", rented: 0, total: 0, percentage: 0 },
+                { name: "1 Bed Apartment", rented: 0, total: 0, percentage: 0 }
+            ];
+            
+            defaultTypes.forEach(type => {
+                const propertyBar = document.createElement('div');
+                propertyBar.className = 'property-bar';
+                propertyBar.innerHTML = `
+                    <div class="property-bar-label">${type.name}</div>
+                    <div class="property-bar-values">${type.rented}/${type.total}</div>
+                    <div class="property-bar-chart">
+                        <div class="property-bar-fill" style="width: ${type.percentage}%"></div>
+                    </div>
+                `;
+                propertyTypesContainer.appendChild(propertyBar);
+            });
+        }
+
+        // Function to reset expiring leases to empty state
+        function resetExpiringLeases() {
+            const expiringLeasesContainer = document.getElementById('expiring-leases');
+            expiringLeasesContainer.innerHTML = '';
+            
+            const defaultLeases = [
+                { value: "$0", label: "Total Value" },
+                { value: "$0", label: "Potential Renewal" },
+                { value: "$0", label: "Additional Value" },
+                { value: "0", label: "Units" },
+                { value: "0", label: "< 30 Days" },
+                { value: "0", label: "31-60 Days" },
+                { value: "0", label: "61-90 Days" }
+            ];
+            
+            defaultLeases.forEach(lease => {
+                const leaseItem = document.createElement('div');
+                leaseItem.className = 'lease-item';
+                leaseItem.innerHTML = `
+                    <div class="lease-value">${lease.value}</div>
+                    <div class="lease-label">${lease.label}</div>
+                `;
+                expiringLeasesContainer.appendChild(leaseItem);
+            });
+        }
+
+        // Function to update charts with aggregated data
+        function updateCharts(data) {
+            // Update income vs cost chart
+            if (incomeCostChart) {
+                incomeCostChart.data.datasets[0].data = data.incomeData;
+                incomeCostChart.data.datasets[1].data = data.costData;
+                incomeCostChart.update();
+            }
+            
+            // Update occupancy chart
+            if (occupancyChart) {
+                occupancyChart.data.datasets[0].data = [data.occupancyData.occupied, data.occupancyData.vacant];
+                occupancyChart.update();
+            }
+            
+            // Update rented by month chart
+            if (rentedByMonthChart) {
+                rentedByMonthChart.data.datasets[0].data = data.rentedByMonth;
+                rentedByMonthChart.data.datasets[1].data = data.availableByMonth;
+                rentedByMonthChart.update();
+            }
+            
+            // Update renewed contracts chart
+            if (renewedChart) {
+                renewedChart.data.datasets[0].data = data.renewedContracts;
+                renewedChart.update();
+            }
+        }
+
+        // Function to update property types based on selected buildings
+        function updatePropertyTypes(selectedBuildings) {
+            const propertyTypesContainer = document.getElementById('property-types');
+            propertyTypesContainer.innerHTML = '';
+            
+            if (selectedBuildings.length === 0) {
+                resetPropertyTypes();
+                return;
+            }
+            
+            // Initialize aggregated property types
+            let aggregatedTypes = {
+                "Big Studio": { rented: 0, total: 0 },
+                "Middle Studio": { rented: 0, total: 0 },
+                "Smaller Studio": { rented: 0, total: 0 },
+                "3 Bed Apartment": { rented: 0, total: 0 },
+                "2 Bed Apartment": { rented: 0, total: 0 },
+                "1 Bed Apartment": { rented: 0, total: 0 }
+            };
+            
+            // Aggregate property types from selected buildings
+            selectedBuildings.forEach(buildingId => {
+                const building = buildingData[buildingId];
+                if (building && building.propertyTypes) {
+                    building.propertyTypes.forEach(type => {
+                        if (aggregatedTypes[type.name]) {
+                            aggregatedTypes[type.name].rented += type.rented;
+                            aggregatedTypes[type.name].total += type.total;
+                        }
+                    });
+                }
+            });
+            
+            // Create property bars
+            Object.keys(aggregatedTypes).forEach(typeName => {
+                const type = aggregatedTypes[typeName];
+                const percentage = type.total > 0 ? Math.round((type.rented / type.total) * 100) : 0;
+                
+                const propertyBar = document.createElement('div');
+                propertyBar.className = 'property-bar';
+                propertyBar.innerHTML = `
+                    <div class="property-bar-label">${typeName}</div>
+                    <div class="property-bar-values">${type.rented}/${type.total}</div>
+                    <div class="property-bar-chart">
+                        <div class="property-bar-fill" style="width: ${percentage}%"></div>
+                    </div>
+                `;
+                propertyTypesContainer.appendChild(propertyBar);
+            });
+        }
+
+        // Function to update expiring leases based on selected buildings
+        function updateExpiringLeases(selectedBuildings) {
+            const expiringLeasesContainer = document.getElementById('expiring-leases');
+            expiringLeasesContainer.innerHTML = '';
+            
+            if (selectedBuildings.length === 0) {
+                resetExpiringLeases();
+                return;
+            }
+            
+            // Initialize aggregated leases
+            let aggregatedLeases = [
+                { value: 0, label: "Total Value", isCurrency: true },
+                { value: 0, label: "Potential Renewal", isCurrency: true },
+                { value: 0, label: "Additional Value", isCurrency: true },
+                { value: 0, label: "Units", isCurrency: false },
+                { value: 0, label: "< 30 Days", isCurrency: false },
+                { value: 0, label: "31-60 Days", isCurrency: false },
+                { value: 0, label: "61-90 Days", isCurrency: false }
+            ];
+            
+            // Aggregate leases from selected buildings
+            selectedBuildings.forEach(buildingId => {
+                const building = buildingData[buildingId];
+                if (building && building.expiringLeases) {
+                    building.expiringLeases.forEach((lease, index) => {
+                        if (aggregatedLeases[index]) {
+                            // Extract numeric value from string (remove $ and commas)
+                            const value = parseFloat(lease.value.replace(/[$,]/g, ''));
+                            if (!isNaN(value)) {
+                                aggregatedLeases[index].value += value;
+                            }
+                        }
+                    });
+                }
+            });
+            
+            // Create lease items
+            aggregatedLeases.forEach(lease => {
+                let displayValue;
+                if (lease.isCurrency) {
+                    displayValue = `$${lease.value.toLocaleString()}`;
+                } else {
+                    displayValue = Math.round(lease.value).toLocaleString();
+                }
+                
+                const leaseItem = document.createElement('div');
+                leaseItem.className = 'lease-item';
+                leaseItem.innerHTML = `
+                    <div class="lease-value">${displayValue}</div>
+                    <div class="lease-label">${lease.label}</div>
+                `;
+                expiringLeasesContainer.appendChild(leaseItem);
+            });
+        }
+
+        // Event listener for region select
+        regionSelect.addEventListener('change', function() {
+            const selectedRegion = this.value;
+            
+            // 清空已选建筑
+            selectedBuildings.forEach(buildingId => {
+                markers[buildingId].setStyle({
+                    fillColor: '#ff5722',
+                    color: '#ff5722',
+                    radius: 10
+                });
+            });
+            selectedBuildings = [];
+            
+            // Update building list
+            updateBuildingList();
+            
+            // If a specific region is selected, focus the map on that region
+            if (selectedRegion !== 'all' && regionCenters[selectedRegion]) {
+                const region = regionCenters[selectedRegion];
+                map.setView(region.center, region.zoom);
+            } else {
+                // Reset to world view
+                map.setView([30, 0], 2);
+            }
+            
+            updateDisplay();
+        });
+
+        // Initialize charts for operations section
+        function initOperationsCharts() {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+            
+            // Rental Income vs Operation Cost Chart
+            const incomeCostCtx = document.getElementById('incomeCostChart').getContext('2d');
+            incomeCostChart = new Chart(incomeCostCtx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'Rental Income',
+                            data: Array(12).fill(0),
+                            backgroundColor: '#3498db',
+                            borderColor: '#2980b9',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Operating Costs',
+                            data: Array(12).fill(0),
+                            backgroundColor: '#e74c3c',
+                            borderColor: '#c0392b',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Amount ($)'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Occupancy vs Vacancy Chart
+            const occupancyCtx = document.getElementById('occupancyChart').getContext('2d');
+            occupancyChart = new Chart(occupancyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Occupancy', 'Vacancy'],
+                    datasets: [{
+                        data: [0, 0],
+                        backgroundColor: ['#2ecc71', '#e74c3c'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Properties Rented by Month Chart
+            const rentedByMonthCtx = document.getElementById('rentedByMonthChart').getContext('2d');
+            rentedByMonthChart = new Chart(rentedByMonthCtx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'Rented',
+                            data: Array(12).fill(0),
+                            backgroundColor: '#3498db'
+                        },
+                        {
+                            label: 'Available',
+                            data: Array(12).fill(0),
+                            backgroundColor: '#e74c3c'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Properties'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Number of Renewed Contracts Chart
+            const renewedCtx = document.getElementById('renewedChart').getContext('2d');
+            renewedChart = new Chart(renewedCtx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Renewed Contracts',
+                        data: Array(12).fill(0),
+                        backgroundColor: '#3498db'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Contracts'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            initMap();
+            updateBuildingList();
+            initOperationsCharts();
+            updateDisplay();
+        };
+    </script>
+</body>
+</html>
